@@ -81,7 +81,7 @@
             position: relative;
         }
         .card:hover { border-color: #ff7699; transform: translateY(-4px); }
-        .member-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+        .member-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: #fafafa; }
         .member-info { padding: 14px 5px; background: #fff; }
         .member-name { font-weight: bold; font-size: 16px; color: #444; margin-bottom: 4px; }
         .member-group { font-size: 12px; color: #888899; font-weight: bold; }
@@ -194,7 +194,6 @@
 <body>
 
 <div class="container">
-    <!-- モード選択画面 -->
     <div id="setup-zone">
         <h2>👑 モードを選択してスタート 👑</h2>
         <div class="mode-select-zone">
@@ -213,14 +212,13 @@
         </div>
     </div>
 
-    <!-- 対戦ゲーム画面 -->
     <div id="game-zone" style="display: none;">
         <h2>👑 どっちが好み？ 👑</h2>
         <p class="counter"><span id="counter-label">残り回数:</span> <span id="round-count">150</span></p>
         
         <div class="flex-box">
             <div class="card" id="left-card" onclick="vote(0, false)">
-                <img src="" id="left-img" class="member-img">
+                <img src="" id="left-img" class="member-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="member-info">
                     <div id="left-name" class="member-name">左のメンバー</div>
                     <div id="left-group" class="member-group">グループ名</div>
@@ -229,7 +227,7 @@
             </div>
 
             <div class="card" id="right-card" onclick="vote(1, false)">
-                <img src="" id="right-img" class="member-img">
+                <img src="" id="right-img" class="member-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="member-info">
                     <div id="right-name" class="member-name">右のメンバー</div>
                     <div id="right-group" class="member-group">グループ名</div>
@@ -250,7 +248,6 @@
         </div>
     </div>
 
-    <!-- グリッチモード専用編集画面 -->
     <div id="glitch-zone" style="display: none;">
         <h3>⚡ グリッチモード ⚡</h3>
         <p class="counter">✨ 直感で9人選ぼう！ ✨</p>
@@ -259,7 +256,6 @@
         <button class="btn-submit-glitch" onclick="finishGlitchMode()">✨ これで結果発表画面を作る！</button>
     </div>
 
-    <!-- 結果画面 -->
     <div id="result-zone" style="display: none;">
         <h3>👑 あなたの好き顔トップ9 👑</h3>
         <div class="grid-result" id="grid-container"></div>
@@ -267,7 +263,6 @@
     </div>
 </div>
 
-<!-- メンバー選択モーダル -->
 <div class="modal" id="member-modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -365,7 +360,7 @@ let members = [
   { id: 83, name: "那須雄登", group: "ACEes", image: "83.jpg", rate: 1500 },
   { id: 84, name: "作間龍斗", group: "ACEes", image: "84.jpg", rate: 1500 },
   { id: 85, name: "深田竜生", group: "ACEes", image: "85.jpg", rate: 1500 },
-  { id: 86, name: "佐藤佐藤", group: "ACEes", image: "86.jpg", rate: 1500 },
+  { id: 86, name: "佐藤龍我", group: "ACEes", image: "86.jpg", rate: 1500 },
   { id: 87, name: "岩崎大昇", group: "KEY TO LIT", image: "87.jpg", rate: 1500 },
   { id: 88, name: "井上瑞稀", group: "KEY TO LIT", image: "88.jpg", rate: 1500 },
   { id: 89, name: "中村嶺亜", group: "KEY TO LIT", image: "89.jpg", rate: 1500 },
@@ -389,7 +384,6 @@ let currentRound = 0;
 let leftIndex, rightIndex;
 let historyLog = [];
 let playedPairs = new Set();
-let nextLeftIndex = null, nextRightIndex = null;
 
 // グリッチモード用の管理配列 (9枠分)
 let glitchSlots = Array(9).fill(null);
@@ -406,7 +400,6 @@ function startWithMode(mode) {
         document.getElementById("game-zone").style.display = "block";
         totalRounds = (mode === 'endless') ? 250 : 150;
         document.getElementById("round-count").textContent = totalRounds + "回";
-        preloadNextImages();
         nextMatch();
     }
 }
@@ -421,7 +414,7 @@ function renderGlitchGrid() {
             let groupName = member.group ? member.group : "STARTO";
             html += `
                 <div class="grid-item" onclick="openModal(${i})">
-                    <img src="${member.image}">
+                    <img src="${member.image}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                     <div class="grid-overlay">
                         <div class="grid-rank">#${i+1}</div>
                         <div class="grid-text-bottom">
@@ -449,7 +442,7 @@ function openModal(slotIndex) {
     members.forEach(m => {
         html += `
             <div class="list-item" onclick="selectMemberForSlot(${m.id})">
-                <img src="${m.image}">
+                <img src="${m.image}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'10\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="list-item-name">${m.name}</div>
             </div>`;
     });
@@ -482,7 +475,7 @@ function finishGlitchMode() {
         
         gridHtml += `
             <div class="grid-item">
-                ${imgUrl ? `<img src="${imgUrl}">` : ""}
+                <img src="${imgUrl}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="grid-overlay">
                     <div class="grid-rank">#${i+1}</div>
                     <div class="grid-text-bottom">
@@ -531,29 +524,14 @@ function pickValidPair(poolIndices) {
     return { left: idxL, right: remaining[Math.floor(Math.random() * remaining.length)] };
 }
 
-function preloadNextImages() {
-    let poolIndices = getCandidateIndices();
-    let pair = pickValidPair(poolIndices);
-    nextLeftIndex = pair.left; nextRightIndex = pair.right;
-    let imgL = new Image(); imgL.src = members[nextLeftIndex].image;
-    let imgR = new Image(); imgR.src = members[nextRightIndex].image;
-}
-
-function nextMatch(isUndo = false) {
+function nextMatch() {
     if (currentRound >= totalRounds) { showResults(); return; }
     document.getElementById("round-count").textContent = (totalRounds - currentRound) + "回";
     document.getElementById("undo-btn").disabled = historyLog.length === 0;
 
-    if (!isUndo) {
-        if (nextLeftIndex !== null && nextRightIndex !== null) {
-            leftIndex = nextLeftIndex; rightIndex = nextRightIndex;
-        } else {
-            let poolIndices = getCandidateIndices();
-            let pair = pickValidPair(poolIndices);
-            leftIndex = pair.left; rightIndex = pair.right;
-        }
-        preloadNextImages();
-    }
+    let poolIndices = getCandidateIndices();
+    let pair = pickValidPair(poolIndices);
+    leftIndex = pair.left; rightIndex = pair.right;
 
     document.getElementById("left-img").src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
@@ -606,9 +584,21 @@ function undoMatch() {
     members[leftIndex].rate = previousState.leftOldRate; members[rightIndex].rate = previousState.rightOldRate;
     if (previousState.pairKey) playedPairs.delete(previousState.pairKey);
     
-    nextLeftIndex = null; nextRightIndex = null;
     if (!previousState.wasSkipped) currentRound--;
-    nextMatch(true);
+    
+    // 直前の状態をそのまま画面に再描画
+    document.getElementById("round-count").textContent = (totalRounds - currentRound) + "回";
+    document.getElementById("undo-btn").disabled = historyLog.length === 0;
+    
+    document.getElementById("left-img").src = members[leftIndex].image;
+    document.getElementById("left-name").textContent = members[leftIndex].name;
+    document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
+    document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
+    
+    document.getElementById("right-img").src = members[rightIndex].image;
+    document.getElementById("right-name").textContent = members[rightIndex].name;
+    document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
+    document.getElementById("right-rate").textContent = "ELO " + members[rightIndex].rate;
 }
 
 function showResults() {
@@ -620,7 +610,7 @@ function showResults() {
         let groupName = ranking[i].group ? ranking[i].group : "STARTO";
         gridHtml += `
             <div class="grid-item">
-                <img src="${ranking[i].image}">
+                <img src="${ranking[i].image}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="grid-overlay">
                     <div class="grid-rank">#${i+1}</div>
                     <div class="grid-text-bottom">
