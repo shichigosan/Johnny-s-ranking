@@ -253,7 +253,7 @@
     <!-- グリッチモード専用編集画面 -->
     <div id="glitch-zone" style="display: none;">
         <h3>⚡ グリッチモード ⚡</h3>
-        <p class="counter">残り時間: <span id="glitch-timer">60</span>秒</p>
+        <p class="counter">✨ 直感で9人選ぼう！ ✨</p>
         <p style="font-size: 13px; color: #666; margin: -10px 0 15px 0;">空いている枠をタップして、直感で推しを9人選んでね！</p>
         <div class="grid-result" id="glitch-grid-container"></div>
         <button class="btn-submit-glitch" onclick="finishGlitchMode()">✨ これで結果発表画面を作る！</button>
@@ -399,20 +399,10 @@ let glitchTimeLeft = 60;
 
 function startWithMode(mode) {
     if (mode === 'glitch') {
-        document.getElementById("setup-zone").style.display = "none";
-        document.getElementById("glitch-zone").style.display = "block";
-        renderGlitchGrid();
-        
-        // 1分間のカウントダウンタイマー
-        glitchTimerInterval = setInterval(() => {
-            glitchTimeLeft--;
-            if (glitchTimeLeft <= 0) {
-                clearInterval(glitchTimerInterval);
-                finishGlitchMode(); // 時間切れで自動確定
-            } else {
-                document.getElementById("glitch-timer").textContent = glitchTimeLeft;
-            }
-        }, 1000);
+    document.getElementById("setup-zone").style.display = "none";
+    document.getElementById("glitch-zone").style.display = "block";
+    renderGlitchGrid();
+}
     } else {
         // 通常対戦モード
         document.getElementById("setup-zone").style.display = "none";
@@ -482,7 +472,7 @@ function selectMemberForSlot(memberId) {
 }
 
 function finishGlitchMode() {
-    if (glitchTimerInterval) clearInterval(glitchTimerInterval);
+    document.getElementById("setup-zone").style.display = "none"; // 安全のためsetupも非表示に
     document.getElementById("glitch-zone").style.display = "none";
     document.getElementById("result-zone").style.display = "block";
 
