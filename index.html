@@ -23,12 +23,8 @@
             border-radius: 24px; 
             box-shadow: 0 12px 32px rgba(255, 182, 193, 0.2); 
         }
-
-        /* スマホのときはコンテナ自体の左右の余白をギリギリまで削る */
         @media (max-width: 600px) {
-            .container {
-                padding: 20px 10px; /* 20pxから10pxに狭めて横幅を確保 */
-            }
+            .container { padding: 20px 10px; }
         }
 
         h2, h3 { 
@@ -36,18 +32,43 @@
             margin-top: 0;
             margin-bottom: 5px; 
             color: #ff527b;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
+        
+        /* モード選択画面 */
+        .mode-select-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 30px 0;
+        }
+        .btn-mode {
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid #ffe3ec;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+        .btn-mode:hover {
+            border-color: #ff7699;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 118, 153, 0.15);
+        }
+        .btn-mode h4 { margin: 0 0 4px 0; color: #ff527b; font-size: 16px; }
+        .btn-mode p { margin: 0; color: #666; font-size: 12px; line-height: 1.4; }
+
         .counter { color: #888899; font-size: 14px; margin-bottom: 25px; }
         .counter span { color: #ff527b; font-weight: bold; font-size: 16px; }
 
+        /* 対戦モード用カード */
         .flex-box { 
             display: flex; 
             justify-content: space-between; 
             margin-bottom: 25px; 
             gap: 14px;
         }
-
         .card { 
             width: 48%; 
             background: #ffffff; 
@@ -56,101 +77,31 @@
             overflow: hidden;
             box-sizing: border-box;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             cursor: pointer;
             position: relative;
         }
-        .card:hover { 
-            border-color: #ff7699; 
-            transform: translateY(-4px); 
-            box-shadow: 0 8px 20px rgba(255, 118, 153, 0.2);
-        }
-        .card:active { transform: scale(0.97); }
-        
-        /* 修正前を消して、ここから差し替え */
-        .card::after {
-            content: "♥ この顔が好き";
-            position: absolute;
-            bottom: 10px; /* 位置を下に変更 */
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 82, 123, 0.9);
-            color: white;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 12px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            pointer-events: none;
-            z-index: 2;
-        }
-        
-        /* パソコン（マウス操作）のときだけ表示する */
-        @media (hover: hover) {
-            .card:hover::after { opacity: 1; }
-        }
-        
-        .member-img { 
-            width: 100%; 
-            aspect-ratio: 1 / 1; 
-            object-fit: cover; 
-            background: #fafafa;
-            display: block;
-        }
-
+        .card:hover { border-color: #ff7699; transform: translateY(-4px); }
+        .member-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
         .member-info { padding: 14px 5px; background: #fff; }
         .member-name { font-weight: bold; font-size: 16px; color: #444; margin-bottom: 4px; }
-        .member-group { font-size: 12px; color: #888899; font-weight: bold; margin-bottom: 6px;}
-        .member-rate { font-size: 12px; color: #a09be7; font-weight: bold; letter-spacing: 0.5px; }
+        .member-group { font-size: 12px; color: #888899; font-weight: bold; }
+        .member-rate { font-size: 12px; color: #a09be7; font-weight: bold; margin-top: 4px;}
 
-        .button-area { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-        }
-
-        .vote-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 14px;
-        }
+        .button-area { display: flex; flex-direction: column; gap: 12px; }
+        .vote-row { display: flex; justify-content: space-between; gap: 14px; }
         .btn-vote {
-            width: 48%;
-            padding: 15px 0;
-            border: none;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
+            width: 48%; padding: 15px 0; border: none; border-radius: 30px;
+            font-size: 15px; font-weight: bold; color: white; cursor: pointer;
             background: linear-gradient(135deg, #ff6ea7 0%, #b076ff 100%);
-            transition: all 0.15s ease;
-            box-shadow: 0 4px 15px rgba(255, 110, 167, 0.3);
         }
-        .btn-vote:active { transform: scale(0.95); }
-
-        .btn-action {
-            width: 100%;
-            padding: 13px 0;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            box-sizing: border-box;
-        }
-        .btn-action:active { transform: scale(0.98); }
-        
+        .btn-action { width: 100%; padding: 13px 0; border-radius: 30px; font-size: 14px; font-weight: bold; cursor: pointer; box-sizing: border-box; }
         .btn-draw { background: #fff0f5; color: #ff527b; border: 2px solid #ffdae5; }
-        .btn-draw:hover { background: #ffe3ec; border-color: #ff7699; }
         .btn-undo { background: #ffffff; color: #ff7699; border: 2px solid #ffcbd9; }
-        .btn-undo:hover:not(:disabled) { background: #fff5f7; border-color: #ff7699; }
         .btn-undo:disabled { background: #f5f5f5; color: #cccccc; border-color: #dddddd; cursor: not-allowed; }
         .btn-skip { background: #f7f7fa; color: #9999aa; border: 1px solid #e2e2ea; }
-        .btn-skip:hover { background: #eeeeee; }
 
-       .grid-result {
+        /* 結果発表 ＆ グリッチ編集用グリッド */
+        .grid-result {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
             gap: 6px; 
@@ -160,13 +111,8 @@
             border-radius: 16px;
             overflow: hidden;
         }
-
-        /* スマホのときは黒い枠の余白も少し詰めて画像を大きくする */
         @media (max-width: 600px) {
-            .grid-result {
-                padding: 4px; /* 8pxから4pxに削って画像を拡大 */
-                gap: 4px;     /* 画像同士の隙間も少し詰める */
-            }
+            .grid-result { padding: 4px; gap: 4px; }
         }
 
         .grid-item {
@@ -175,14 +121,18 @@
             overflow: hidden;
             background: #222;
             border-radius: 8px;
+            cursor: pointer;
         }
-
-        .grid-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
+        .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .grid-item.empty-slot {
+            background: #222233;
+            border: 2px dashed #ff527b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
         }
+        .empty-text { color: #ff527b; font-size: 12px; font-weight: bold; }
 
         .grid-overlay {
             position: absolute;
@@ -196,65 +146,78 @@
             color: white;
             text-align: left;
         }
-
         .grid-rank {
             font-size: 18px;
             font-weight: 900;
             font-family: 'Impact', Arial Black, sans-serif;
-            letter-spacing: 0.5px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
-
-        ..grid-text-bottom {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        /* パソコン版（元の設定をキープ） */
+        .grid-text-bottom { display: flex; flex-direction: column; gap: 2px; }
         .grid-group {
-            font-size: 10px;
-            font-weight: bold;
-            color: #ffb6c1; 
+            font-size: 10px; font-weight: bold; color: #ffb6c1; 
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-
         .grid-name {
-            font-size: 13px;
-            font-weight: bold;
+            font-size: 13px; font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        @media (max-width: 600px) {
+            .grid-group { font-size: 9px; }
+            .grid-name { font-size: 11px; }
         }
 
-        /* スマホ版（画面幅が600px以下のときだけ上書き） */
-        @media (max-width: 600px) {
-            .grid-group {
-                font-size: 9px;
-            }
-            .grid-name {
-                font-size: 11px;
-            }
+        /* メンバー選択用モーダル */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 10; justify-content: center; align-items: center;
         }
-        
-        .tip-info {
-            font-size: 12px;
-            color: #666;
-            margin-top: 15px;
+        .modal-content {
+            background: white; width: 90%; max-width: 450px; height: 80vh;
+            border-radius: 20px; padding: 20px; display: flex; flex-direction: column; box-sizing: border-box;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .modal-close { font-size: 24px; cursor: pointer; color: #aaa; border: none; background: none; }
+        .member-list-scroll { overflow-y: auto; flex-grow: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-right: 5px; }
+        .list-item { background: #f9f9fb; border: 1px solid #eee; border-radius: 8px; padding: 4px; cursor: pointer; text-align: center; font-size: 11px; }
+        .list-item img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 6px; margin-bottom: 4px; }
+        .list-item-name { font-weight: bold; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .tip-info { font-size: 12px; color: #666; margin-top: 15px; }
+        .btn-submit-glitch {
+            width: 100%; padding: 15px 0; border: none; border-radius: 30px; font-size: 16px; font-weight: bold; color: white;
+            background: linear-gradient(135deg, #ff527b 0%, #b076ff 100%); cursor: pointer; margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>👑 どっちが好み？ 👑</h2>
-    <p class="counter">残り回数: <span id="round-count">150</span>回</p>
-    
-    <div id="game-zone">
+    <!-- モード選択画面 -->
+    <div id="setup-zone">
+        <h2>👑 モードを選択してスタート 👑</h2>
+        <div class="mode-select-zone">
+            <button class="btn-mode" onclick="startWithMode('normal')">
+                <h4>▶ ノーマルモード (150回)</h4>
+                <p>標準的な150回の対戦でじっくり顔の好みを仕分けます。迷ったらこれ！</p>
+            </button>
+            <button class="btn-mode" onclick="startWithMode('endless')">
+                <h4>🔥 しっかり選ぶモード (250回)</h4>
+                <p>大ボリュームの250回対戦！102人の中から上位のガチバトルまで完全に見極めます。</p>
+            </button>
+            <button class="btn-mode" onclick="startWithMode('glitch')">
+                <h4>⚡ グリッチモード (自分の意思で9人選ぶ)</h4>
+                <p>制限時間は1分間！102人の全リストから、枠をタップしてあなたの意思で直感のトップ9を埋め尽くせ！</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- 対戦ゲーム画面 -->
+    <div id="game-zone" style="display: none;">
+        <h2>👑 どっちが好み？ 👑</h2>
+        <p class="counter"><span id="counter-label">残り回数:</span> <span id="round-count">150</span></p>
+        
         <div class="flex-box">
             <div class="card" id="left-card" onclick="vote(0, false)">
                 <img src="" id="left-img" class="member-img">
@@ -287,6 +250,16 @@
         </div>
     </div>
 
+    <!-- グリッチモード専用編集画面 -->
+    <div id="glitch-zone" style="display: none;">
+        <h3>⚡ グリッチモード ⚡</h3>
+        <p class="counter">残り時間: <span id="glitch-timer">60</span>秒</p>
+        <p style="font-size: 13px; color: #666; margin: -10px 0 15px 0;">空いている枠をタップして、直感で推しを9人選んでね！</p>
+        <div class="grid-result" id="glitch-grid-container"></div>
+        <button class="btn-submit-glitch" onclick="finishGlitchMode()">✨ これで結果発表画面を作る！</button>
+    </div>
+
+    <!-- 結果画面 -->
     <div id="result-zone" style="display: none;">
         <h3>👑 あなたの好き顔トップ9 👑</h3>
         <div class="grid-result" id="grid-container"></div>
@@ -294,126 +267,252 @@
     </div>
 </div>
 
+<!-- メンバー選択モーダル -->
+<div class="modal" id="member-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 style="margin:0; color:#ff527b;" id="modal-title">#1 の顔を選ぶ</h4>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="member-list-scroll" id="modal-list-container"></div>
+    </div>
+</div>
+
 <script>
 let members = [
-  { id: 1, name: "小山慶一郎", group: "NEWS", rate: 1500, image: "1.jpg" },
-  { id: 2, name: "加藤シゲアキ", group: "NEWS", rate: 1500, image: "2.jpg" },
-  { id: 3, name: "増田貴久", group: "NEWS", rate: 1500, image: "3.jpg" },
-  { id: 4, name: "堂本剛", group: "DOMOTO", rate: 1500, image: "4.jpg" },
-  { id: 5, name: "堂本光一", group: "DOMOTO", rate: 1500, image: "5.jpg" },
-  { id: 6, name: "大野智", group: "嵐", rate: 1500, image: "6.jpg" },
-  { id: 7, name: "櫻井翔", group: "嵐", rate: 1500, image: "7.jpg" }, 
-  { id: 8, name: "松本潤", group: "嵐", rate: 1500, image: "8.jpg" },
-  { id: 9, name: "相葉雅紀", group: "嵐", rate: 1500, image: "9.jpg" },
-  { id: 10, name: "二宮和也", group: "嵐", rate: 1500, image: "10.jpg" },
-  { id: 11, name: "大倉忠義", group: "SUPER EIGHT", rate: 1500, image: "11.jpg" },
-  { id: 12, name: "安田章大", group: "SUPER EIGHT", rate: 1500, image: "12.jpg" },
-  { id: 13, name: "村上信五", group: "SUPER EIGHT", rate: 1500, image: "13.jpg" },
-  { id: 14, name: "横山裕", group: "SUPER EIGHT", rate: 1500, image: "14.jpg" },
-  { id: 15, name: "丸山隆平", group: "SUPER EIGHT", rate: 1500, image: "15.jpg" },
-  { id: 16, name: "山田涼介", group: "Hey! Say! JUMP", rate: 1500, image: "16.jpg" },
-  { id: 17, name: "有岡大貴", group: "Hey! Say! JUMP", rate: 1500, image: "17.jpg" },
-  { id: 18, name: "知念侑李", group: "Hey! Say! JUMP", rate: 1500, image: "18.jpg" },
-  { id: 19, name: "伊野尾慧", group: "Hey! Say! JUMP", rate: 1500, image: "19.jpg" },
-  { id: 20, name: "髙木雄也", group: "Hey! Say! JUMP", rate: 1500, image: "20.jpg" },
-  { id: 21, name: "八乙女光", group: "Hey! Say! JUMP", rate: 1500, image: "21.jpg" },
-  { id: 22, name: "薮宏太", group: "Hey! Say! JUMP", rate: 1500, image: "22.jpg" },
-  { id: 23, name: "千賀健永", group: "Kis-My-Ft2", rate: 1500, image: "23.jpg" },
-  { id: 24, name: "横尾渉", group: "Kis-My-Ft2", rate: 1500, image: "24.jpg" },
-  { id: 25, name: "宮田俊哉", group: "Kis-My-Ft2", rate: 1500, image: "25.jpg" },
-  { id: 26, name: "玉森裕太", group: "Kis-My-Ft2", rate: 1500, image: "26.jpg" },
-  { id: 27, name: "藤ヶ谷太輔", group: "Kis-My-Ft2", rate: 1500, image: "27.jpg" },
-  { id: 28, name: "二階堂高嗣", group: "Kis-My-Ft2", rate: 1500, image: "28.jpg" },
-  { id: 29, name: "佐藤勝利", group: "timelesz", rate: 1500, image: "29.jpg" },
-  { id: 30, name: "菊池風磨", group: "timelesz", rate: 1500, image: "30.jpg" },
-  { id: 31, name: "松島聡", group: "timelesz", rate: 1500, image: "31.jpg" },
-  { id: 32, name: "寺西拓人", group: "timelesz", rate: 1500, image: "32.jpg" },
-  { id: 33, name: "原嘉孝", group: "timelesz", rate: 1500, image: "33.jpg" },
-  { id: 34, name: "橋本将生", group: "timelesz", rate: 1500, image: "34.jpg" },
-  { id: 35, name: "猪俣周杜", group: "timelesz", rate: 1500, image: "35.jpg" },
-  { id: 36, name: "篠塚大輝", group: "timelesz", rate: 1500, image: "36.jpg" },
-  { id: 37, name: "中島健人", group: "Solo", rate: 1500, image: "37.jpg" },
-  { id: 38, name: "橋本良亮", group: "A.B.C-Z", rate: 1500, image: "38.jpg" },
-  { id: 39, name: "戸塚祥太", group: "A.B.C-Z", rate: 1500, image: "39.jpg" },
-  { id: 40, name: "五関晃一", group: "A.B.C-Z", rate: 1500, image: "40.jpg" },
-  { id: 41, name: "塚田僚一", group: "A.B.C-Z", rate: 1500, image: "41.jpg" },
-  { id: 42, name: "重岡大毅", group: "WEST.", rate: 1500, image: "42.jpg" },
-  { id: 43, name: "桐山照史", group: "WEST.", rate: 1500, image: "43.jpg" },
-  { id: 44, name: "中間淳太", group: "WEST.", rate: 1500, image: "44.jpg" },
-  { id: 45, name: "神山智洋", group: "WEST.", rate: 1500, image: "45.jpg" },
-  { id: 46, name: "藤井流星", group: "WEST.", rate: 1500, image: "46.jpg" },
-  { id: 47, name: "濵田崇裕", group: "WEST.", rate: 1500, image: "47.jpg" },
-  { id: 48, name: "小瀧望", group: "WEST.", rate: 1500, image: "48.jpg" },
-  { id: 49, name: "ジェシー", group: "SixTONES", rate: 1500, image: "49.jpg" },
-  { id: 50, name: "京本大我", group: "SixTONES", rate: 1500, image: "50.jpg" },
-  { id: 51, name: "松村北斗", group: "SixTONES", rate: 1500, image: "51.jpg" },
-  { id: 52, name: "髙地優吾", group: "SixTONES", rate: 1500, image: "52.jpg" },
-  { id: 53, name: "森本慎太郎", group: "SixTONES", rate: 1500, image: "53.jpg" },
-  { id: 54, name: "田中樹", group: "SixTONES", rate: 1500, image: "54.jpg" },
-  { id: 55, name: "岩本照", group: "Snow Man", rate: 1500, image: "55.jpg" },
-  { id: 56, name: "深澤辰哉", group: "Snow Man", rate: 1500, image: "56.jpg" },
-  { id: 57, name: "ラウール", group: "Snow Man", rate: 1500, image: "57.jpg" },
-  { id: 58, name: "渡辺翔太", group: "Snow Man", rate: 1500, image: "58.jpg" },
-  { id: 59, name: "向井康二", group: "Snow Man", rate: 1500, image: "59.jpg" },
-  { id: 60, name: "阿部亮平", group: "Snow Man", rate: 1500, image: "60.jpg" },
-  { id: 61, name: "目黒蓮", group: "Snow Man", rate: 1500, image: "61.jpg" },
-  { id: 62, name: "宮舘涼太", group: "Snow Man", rate: 1500, image: "62.jpg" },
-  { id: 63, name: "佐久間大介", group: "Snow Man", rate: 1500, image: "63.jpg" },
-  { id: 64, name: "西畑大吾", group: "なにわ男子", rate: 1500, image: "64.jpg" },
-  { id: 65, name: "大西流星", group: "なにわ男子", rate: 1500, image: "65.jpg" },
-  { id: 66, name: "道枝駿佑", group: "なにわ男子", rate: 1500, image: "66.jpg" },
-  { id: 67, name: "高橋恭平", group: "なにわ男子", rate: 1500, image: "67.jpg" },
-  { id: 68, name: "長尾謙杜", group: "なにわ男子", rate: 1500, image: "68.jpg" },
-  { id: 69, name: "藤原丈一郎", group: "なにわ男子", rate: 1500, image: "69.jpg" },
-  { id: 70, name: "大橋和也", group: "なにわ男子", rate: 1500, image: "70.jpg" },
-  { id: 71, name: "宮近海斗", group: "Travis Japan", rate: 1500, image: "71.jpg" },
-  { id: 72, name: "中村海人", group: "Travis Japan", rate: 1500, image: "72.jpg" },
-  { id: 73, name: "七五三掛龍也", group: "Travis Japan", rate: 1500, image: "73.jpg" },
-  { id: 74, name: "川島如恵留", group: "Travis Japan", rate: 1500, image: "74.jpg" },
-  { id: 75, name: "吉澤閑也", group: "Travis Japan", rate: 1500, image: "75.jpg" },
-  { id: 76, name: "松田元太", group: "Travis Japan", rate: 1500, image: "76.jpg" },
-  { id: 77, name: "松倉海斗", group: "Travis Japan", rate: 1500, image: "77.jpg" },
-  { id: 78, name: "正門良規", group: "Aぇ! group", rate: 1500, image: "78.jpg" },
-  { id: 79, name: "末澤誠也", group: "Aぇ! group", rate: 1500, image: "79.jpg" },
-  { id: 80, name: "小島健", group: "Aぇ! group", rate: 1500, image: "80.jpg" },
-  { id: 81, name: "佐野晶哉", group: "Aぇ! group", rate: 1500, image: "81.jpg" },
-  { id: 82, name: "浮所飛貴", group: "ACEes", rate: 1500, image: "82.jpg" },
-  { id: 83, name: "那須雄登", group: "ACEes", rate: 1500, image: "83.jpg" },
-  { id: 84, name: "作間龍斗", group: "ACEes", rate: 1500, image: "84.jpg" },
-  { id: 85, name: "深田竜生", group: "ACEes", rate: 1500, image: "85.jpg" },
-  { id: 86, name: "佐藤龍我", group: "ACEes", rate: 1500, image: "86.jpg" },
-  { id: 87, name: "岩崎大昇", group: "KEY TO LIT", rate: 1500, image: "87.jpg" },
-  { id: 88, name: "井上瑞稀", group: "KEY TO LIT", rate: 1500, image: "88.jpg" },
-  { id: 89, name: "中村嶺亜", group: "KEY TO LIT", rate: 1500, image: "89.jpg" },
-  { id: 90, name: "猪狩蒼弥", group: "KEY TO LIT", rate: 1500, image: "90.jpg" },
-  { id: 91, name: "佐々木大光", group: "KEY TO LIT", rate: 1500, image: "91.jpg" },
-  { id: 92, name: "橋本涼", group: "B&ZAI", rate: 1500, image: "92.jpg" },
-  { id: 93, name: "矢花黎", group: "B&ZAI", rate: 1500, image: "93.jpg" },
-  { id: 94, name: "今野大輝", group: "B&ZAI", rate: 1500, image: "94.jpg" },
-  { id: 95, name: "菅田凛寧", group: "B&ZAI", rate: 1500, image: "95.jpg" },
-  { id: 96, name: "本髙克樹", group: "B&ZAI", rate: 1500, image: "96.jpg" },
-  { id: 97, name: "鈴木悠仁", group: "B&ZAI", rate: 1500, image: "97.jpg" },
-  { id: 98, name: "川﨑星輝", group: "B&ZAI", rate: 1500, image: "98.jpg" },
-  { id: 99, name: "稲葉通陽", group: "B&ZAI", rate: 1500, image: "99.jpg" },
-  { id: 100, name: "永瀬廉", group: "King & Prince", rate: 1500, image: "100.jpg" },
-  { id: 101, name: "髙橋海人", group: "King & Prince", rate: 1500, image: "101.jpg" },
-  { id: 102, name: "赤西仁", group: "Solo", rate: 1500, image: "102.jpg" }
+  { id: 1, name: "小山慶一郎", group: "NEWS", image: "1.jpg", rate: 1500 },
+  { id: 2, name: "加藤シゲアキ", group: "NEWS", image: "2.jpg", rate: 1500 },
+  { id: 3, name: "増田貴久", group: "NEWS", image: "3.jpg", rate: 1500 },
+  { id: 4, name: "堂本剛", group: "DOMOTO", image: "4.jpg", rate: 1500 },
+  { id: 5, name: "堂本光一", group: "DOMOTO", image: "5.jpg", rate: 1500 },
+  { id: 6, name: "大野智", group: "嵐", image: "6.jpg", rate: 1500 },
+  { id: 7, name: "櫻井翔", group: "嵐", image: "7.jpg", rate: 1500 }, 
+  { id: 8, name: "松本潤", group: "嵐", image: "8.jpg", rate: 1500 },
+  { id: 9, name: "相葉雅紀", group: "嵐", image: "9.jpg", rate: 1500 },
+  { id: 10, name: "二宮和也", group: "嵐", image: "10.jpg", rate: 1500 },
+  { id: 11, name: "大倉忠義", group: "SUPER EIGHT", image: "11.jpg", rate: 1500 },
+  { id: 12, name: "安田章大", group: "SUPER EIGHT", image: "12.jpg", rate: 1500 },
+  { id: 13, name: "村上信五", group: "SUPER EIGHT", image: "13.jpg", rate: 1500 },
+  { id: 14, name: "横山裕", group: "SUPER EIGHT", image: "14.jpg", rate: 1500 },
+  { id: 15, name: "丸山隆平", group: "SUPER EIGHT", image: "15.jpg", rate: 1500 },
+  { id: 16, name: "山田涼介", group: "Hey! Say! JUMP", image: "16.jpg", rate: 1500 },
+  { id: 17, name: "開岡大貴", group: "Hey! Say! JUMP", image: "17.jpg", rate: 1500 },
+  { id: 18, name: "知念侑李", group: "Hey! Say! JUMP", image: "18.jpg", rate: 1500 },
+  { id: 19, name: "伊野尾慧", group: "Hey! Say! JUMP", image: "19.jpg", rate: 1500 },
+  { id: 20, name: "髙木雄也", group: "Hey! Say! JUMP", image: "20.jpg", rate: 1500 },
+  { id: 21, name: "八乙女光", group: "Hey! Say! JUMP", image: "21.jpg", rate: 1500 },
+  { id: 22, name: "薮宏太", group: "Hey! Say! JUMP", image: "22.jpg", rate: 1500 },
+  { id: 23, name: "千賀健永", group: "Kis-My-Ft2", image: "23.jpg", rate: 1500 },
+  { id: 24, name: "横尾渉", group: "Kis-My-Ft2", image: "24.jpg", rate: 1500 },
+  { id: 25, name: "宮田俊哉", group: "Kis-My-Ft2", image: "25.jpg", rate: 1500 },
+  { id: 26, name: "玉森裕太", group: "Kis-My-Ft2", image: "26.jpg", rate: 1500 },
+  { id: 27, name: "藤ヶ谷太輔", group: "Kis-My-Ft2", image: "27.jpg", rate: 1500 },
+  { id: 28, name: "二階堂高嗣", group: "Kis-My-Ft2", image: "28.jpg", rate: 1500 },
+  { id: 29, name: "佐藤勝利", group: "timelesz", image: "29.jpg", rate: 1500 },
+  { id: 30, name: "菊池風磨", group: "timelesz", image: "30.jpg", rate: 1500 },
+  { id: 31, name: "松島聡", group: "timelesz", image: "31.jpg", rate: 1500 },
+  { id: 32, name: "寺西拓人", group: "timelesz", image: "32.jpg", rate: 1500 },
+  { id: 33, name: "原嘉孝", group: "timelesz", image: "33.jpg", rate: 1500 },
+  { id: 34, name: "橋本将生", group: "timelesz", image: "34.jpg", rate: 1500 },
+  { id: 35, name: "猪俣周杜", group: "timelesz", image: "35.jpg", rate: 1500 },
+  { id: 36, name: "篠塚大輝", group: "timelesz", image: "36.jpg", rate: 1500 },
+  { id: 37, name: "中島健人", group: "Solo", image: "37.jpg", rate: 1500 },
+  { id: 38, name: "橋本良亮", group: "A.B.C-Z", image: "38.jpg", rate: 1500 },
+  { id: 39, name: "戸塚祥太", group: "A.B.C-Z", image: "39.jpg", rate: 1500 },
+  { id: 40, name: "五関晃一", group: "A.B.C-Z", image: "40.jpg", rate: 1500 },
+  { id: 41, name: "塚田僚一", group: "A.B.C-Z", image: "41.jpg", rate: 1500 },
+  { id: 42, name: "重岡大毅", group: "WEST.", image: "42.jpg", rate: 1500 },
+  { id: 43, name: "桐山照史", group: "WEST.", image: "43.jpg", rate: 1500 },
+  { id: 44, name: "中間淳太", group: "WEST.", image: "44.jpg", rate: 1500 },
+  { id: 45, name: "神山智洋", group: "WEST.", image: "45.jpg", rate: 1500 },
+  { id: 46, name: "藤井流星", group: "WEST.", image: "46.jpg", rate: 1500 },
+  { id: 47, name: "濵田崇裕", group: "WEST.", image: "47.jpg", rate: 1500 },
+  { id: 48, name: "小瀧望", group: "WEST.", image: "48.jpg", rate: 1500 },
+  { id: 49, name: "ジェシー", group: "SixTONES", image: "49.jpg", rate: 1500 },
+  { id: 50, name: "京本大我", group: "SixTONES", image: "50.jpg", rate: 1500 },
+  { id: 51, name: "松村北斗", group: "SixTONES", image: "51.jpg", rate: 1500 },
+  { id: 52, name: "髙地優吾", group: "SixTONES", image: "52.jpg", rate: 1500 },
+  { id: 53, name: "森本慎太郎", group: "SixTONES", image: "53.jpg", rate: 1500 },
+  { id: 54, name: "田中樹", group: "SixTONES", image: "54.jpg", rate: 1500 },
+  { id: 55, name: "岩本照", group: "Snow Man", image: "55.jpg", rate: 1500 },
+  { id: 56, name: "深澤辰哉", group: "Snow Man", image: "56.jpg", rate: 1500 },
+  { id: 57, name: "ラウール", group: "Snow Man", image: "57.jpg", rate: 1500 },
+  { id: 58, name: "渡辺翔太", group: "Snow Man", image: "58.jpg", rate: 1500 },
+  { id: 59, name: "向井康二", group: "Snow Man", image: "59.jpg", rate: 1500 },
+  { id: 60, name: "阿部亮平", group: "Snow Man", image: "60.jpg", rate: 1500 },
+  { id: 61, name: "目黒蓮", group: "Snow Man", image: "61.jpg", rate: 1500 },
+  { id: 62, name: "宮舘涼太", group: "Snow Man", image: "62.jpg", rate: 1500 },
+  { id: 63, name: "佐久間大介", group: "Snow Man", image: "63.jpg", rate: 1500 },
+  { id: 64, name: "西畑大吾", group: "なにわ男子", image: "64.jpg", rate: 1500 },
+  { id: 65, name: "大西流星", group: "なにわ男子", image: "65.jpg", rate: 1500 },
+  { id: 66, name: "道枝駿佑", group: "なにわ男子", image: "66.jpg", rate: 1500 },
+  { id: 67, name: "高橋恭平", group: "なにわ男子", image: "67.jpg", rate: 1500 },
+  { id: 68, name: "長尾謙杜", group: "なにわ男子", image: "68.jpg", rate: 1500 },
+  { id: 69, name: "藤原丈一郎", group: "なにわ男子", image: "69.jpg", rate: 1500 },
+  { id: 70, name: "大橋和也", group: "なにわ男子", image: "70.jpg", rate: 1500 },
+  { id: 71, name: "宮近海斗", group: "Travis Japan", image: "71.jpg", rate: 1500 },
+  { id: 72, name: "中村海人", group: "Travis Japan", image: "72.jpg", rate: 1500 },
+  { id: 73, name: "七五三掛龍也", group: "Travis Japan", image: "73.jpg", rate: 1500 },
+  { id: 74, name: "川島如恵留", group: "Travis Japan", image: "74.jpg", rate: 1500 },
+  { id: 75, name: "吉澤閑也", group: "Travis Japan", image: "75.jpg", rate: 1500 },
+  { id: 76, name: "松田元太", group: "Travis Japan", image: "76.jpg", rate: 1500 },
+  { id: 77, name: "松倉海斗", group: "Travis Japan", image: "77.jpg", rate: 1500 },
+  { id: 78, name: "正門良規", group: "Aぇ! group", image: "78.jpg", rate: 1500 },
+  { id: 79, name: "末澤誠也", group: "Aぇ! group", image: "79.jpg", rate: 1500 },
+  { id: 80, name: "小島健", group: "Aぇ! group", image: "80.jpg", rate: 1500 },
+  { id: 81, name: "佐野晶哉", group: "Aぇ! group", image: "81.jpg", rate: 1500 },
+  { id: 82, name: "浮所飛貴", group: "ACEes", image: "82.jpg", rate: 1500 },
+  { id: 83, name: "那須雄登", group: "ACEes", image: "83.jpg", rate: 1500 },
+  { id: 84, name: "作間龍斗", group: "ACEes", image: "84.jpg", rate: 1500 },
+  { id: 85, name: "深田竜生", group: "ACEes", image: "85.jpg", rate: 1500 },
+  { id: 86, name: "佐藤龍我", group: "ACEes", image: "86.jpg", rate: 1500 },
+  { id: 87, name: "岩崎大昇", group: "KEY TO LIT", image: "87.jpg", rate: 1500 },
+  { id: 88, name: "井上瑞稀", group: "KEY TO LIT", image: "88.jpg", rate: 1500 },
+  { id: 89, name: "中村嶺亜", group: "KEY TO LIT", image: "89.jpg", rate: 1500 },
+  { id: 90, name: "猪狩蒼弥", group: "KEY TO LIT", image: "90.jpg", rate: 1500 },
+  { id: 91, name: "佐々木大光", group: "KEY TO LIT", image: "91.jpg", rate: 1500 },
+  { id: 92, name: "橋本涼", group: "B&ZAI", image: "92.jpg", rate: 1500 },
+  { id: 93, name: "矢花黎", group: "B&ZAI", image: "93.jpg", rate: 1500 },
+  { id: 94, name: "今野大輝", group: "B&ZAI", image: "94.jpg", rate: 1500 },
+  { id: 95, name: "菅田凛寧", group: "B&ZAI", image: "95.jpg", rate: 1500 },
+  { id: 96, name: "本髙克樹", group: "B&ZAI", image: "96.jpg", rate: 1500 },
+  { id: 97, name: "鈴木悠仁", group: "B&ZAI", image: "97.jpg", rate: 1500 },
+  { id: 98, name: "川﨑星輝", group: "B&ZAI", image: "98.jpg", rate: 1500 },
+  { id: 99, name: "稲葉通陽", group: "B&ZAI", image: "99.jpg", rate: 1500 },
+  { id: 100, name: "永瀬廉", group: "King & Prince", image: "100.jpg", rate: 1500 },
+  { id: 101, name: "髙橋海人", group: "King & Prince", image: "101.jpg", rate: 1500 },
+  { id: 102, name: "赤西仁", group: "Solo", image: "102.jpg", rate: 1500 }
 ];
 
-const K_FACTOR = 32;
 let totalRounds = 150; 
 let currentRound = 0;
 let leftIndex, rightIndex;
 let historyLog = [];
-
-// 【新規追加】一度対戦した組み合わせ（「ID_A-ID_B」の形式）を記憶するセット
 let playedPairs = new Set();
+let nextLeftIndex = null, nextRightIndex = null;
 
-let nextLeftIndex = null;
-let nextRightIndex = null;
+// グリッチモード用の管理配列 (9枠分)
+let glitchSlots = Array(9).fill(null);
+let activeSlotIndex = null;
+let glitchTimerInterval = null;
+let glitchTimeLeft = 60;
 
+function startWithMode(mode) {
+    if (mode === 'glitch') {
+        document.getElementById("setup-zone").style.display = "none";
+        document.getElementById("glitch-zone").style.display = "block";
+        renderGlitchGrid();
+        
+        // 1分間のカウントダウンタイマー
+        glitchTimerInterval = setInterval(() => {
+            glitchTimeLeft--;
+            if (glitchTimeLeft <= 0) {
+                clearInterval(glitchTimerInterval);
+                finishGlitchMode(); // 時間切れで自動確定
+            } else {
+                document.getElementById("glitch-timer").textContent = glitchTimeLeft;
+            }
+        }, 1000);
+    } else {
+        // 通常対戦モード
+        document.getElementById("setup-zone").style.display = "none";
+        document.getElementById("game-zone").style.display = "block";
+        totalRounds = (mode === 'endless') ? 250 : 150;
+        document.getElementById("round-count").textContent = totalRounds + "回";
+        preloadNextImages();
+        nextMatch();
+    }
+}
+
+/* ─── グリッチモード用の制御ロジック ─── */
+function renderGlitchGrid() {
+    let container = document.getElementById("glitch-grid-container");
+    let html = "";
+    for (let i = 0; i < 9; i++) {
+        let member = glitchSlots[i];
+        if (member) {
+            let groupName = member.group ? member.group : "STARTO";
+            html += `
+                <div class="grid-item" onclick="openModal(${i})">
+                    <img src="${member.image}">
+                    <div class="grid-overlay">
+                        <div class="grid-rank">#${i+1}</div>
+                        <div class="grid-text-bottom">
+                            <div class="grid-group">${groupName}</div>
+                            <div class="grid-name">${member.name}</div>
+                        </div>
+                    </div>
+                </div>`;
+        } else {
+            html += `
+                <div class="grid-item empty-slot" onclick="openModal(${i})">
+                    <div class="empty-text">#${i+1}<br>タップして選ぶ</div>
+                </div>`;
+        }
+    }
+    container.innerHTML = html;
+}
+
+function openModal(slotIndex) {
+    activeSlotIndex = slotIndex;
+    document.getElementById("modal-title").textContent = `#${slotIndex + 1} の顔を選ぶ`;
+    
+    let listContainer = document.getElementById("modal-list-container");
+    let html = "";
+    members.forEach(m => {
+        html += `
+            <div class="list-item" onclick="selectMemberForSlot(${m.id})">
+                <img src="${m.image}">
+                <div class="list-item-name">${m.name}</div>
+            </div>`;
+    });
+    listContainer.innerHTML = html;
+    document.getElementById("member-modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("member-modal").style.display = "none";
+}
+
+function selectMemberForSlot(memberId) {
+    let selected = members.find(m => m.id === memberId);
+    glitchSlots[activeSlotIndex] = selected;
+    closeModal();
+    renderGlitchGrid();
+}
+
+function finishGlitchMode() {
+    if (glitchTimerInterval) clearInterval(glitchTimerInterval);
+    document.getElementById("glitch-zone").style.display = "none";
+    document.getElementById("result-zone").style.display = "block";
+
+    let gridHtml = "";
+    for (let i = 0; i < 9; i++) {
+        let member = glitchSlots[i];
+        let imgUrl = member ? member.image : ""; 
+        let nameText = member ? member.name : "（未選択）";
+        let groupName = member ? (member.group ? member.group : "STARTO") : "-";
+        
+        gridHtml += `
+            <div class="grid-item">
+                ${imgUrl ? `<img src="${imgUrl}">` : ""}
+                <div class="grid-overlay">
+                    <div class="grid-rank">#${i+1}</div>
+                    <div class="grid-text-bottom">
+                        <div class="grid-group">${groupName}</div>
+                        <div class="grid-name">${nameText}</div>
+                    </div>
+                </div>
+            </div>`;
+    }
+    document.getElementById("grid-container").innerHTML = gridHtml;
+}
+
+
+/* ─── 通常・250回（Elo対戦）のロジック ─── */
 function getCandidateIndices() {
-    if (currentRound >= 100) {
+    let borderRound = (totalRounds === 250) ? 180 : 100;
+    if (currentRound >= borderRound) {
         let indexedMembers = members.map((m, idx) => ({ index: idx, rate: m.rate }));
         indexedMembers.sort((a, b) => b.rate - a.rate);
         return indexedMembers.slice(0, 30).map(m => m.index);
@@ -421,19 +520,14 @@ function getCandidateIndices() {
     return members.map((_, idx) => idx);
 }
 
-// 2人のIDから、対戦記録用の一意なキー「小さいID-大きいID」を作る関数
 function makePairKey(idx1, idx2) {
-    let id1 = members[idx1].id;
-    let id2 = members[idx2].id;
+    let id1 = members[idx1].id; let id2 = members[idx2].id;
     return id1 < id2 ? `${id1}-${id2}` : `${id2}-${id1}`;
 }
 
-// 未対戦のペアを見つける関数（見つからない場合は重複を許容する安全弁付き）
 function pickValidPair(poolIndices) {
-    // 無限ループを防ぐため、最大200回トライする
     for (let attempt = 0; attempt < 200; attempt++) {
         let idxL = poolIndices[Math.floor(Math.random() * poolIndices.length)];
-        
         let leftRate = members[idxL].rate;
         let shuffled = poolIndices
             .filter(idx => idx !== idxL)
@@ -442,56 +536,38 @@ function pickValidPair(poolIndices) {
             
         let matchPool = shuffled.slice(0, 10);
         if (matchPool.length === 0) continue;
-        
         let idxR = matchPool[Math.floor(Math.random() * matchPool.length)].index;
-        
-        // すでに戦ったことがあるかチェック
-        if (!playedPairs.has(makePairKey(idxL, idxR))) {
-            return { left: idxL, right: idxR };
-        }
+        if (!playedPairs.has(makePairKey(idxL, idxR))) return { left: idxL, right: idxR };
     }
-    
-    // 万が一、未対戦ペアがどうしても見つからなかった場合は制限を外してランダムに選出
     let idxL = poolIndices[Math.floor(Math.random() * poolIndices.length)];
     let remaining = poolIndices.filter(idx => idx !== idxL);
-    let idxR = remaining[Math.floor(Math.random() * remaining.length)];
-    return { left: idxL, right: idxR };
+    return { left: idxL, right: remaining[Math.floor(Math.random() * remaining.length)] };
 }
 
 function preloadNextImages() {
     let poolIndices = getCandidateIndices();
     let pair = pickValidPair(poolIndices);
-    
-    nextLeftIndex = pair.left;
-    nextRightIndex = pair.right;
-
+    nextLeftIndex = pair.left; nextRightIndex = pair.right;
     let imgL = new Image(); imgL.src = members[nextLeftIndex].image;
     let imgR = new Image(); imgR.src = members[nextRightIndex].image;
 }
 
 function nextMatch(isUndo = false) {
-    if (currentRound >= totalRounds) {
-        showResults();
-        return;
-    }
-    
-    document.getElementById("round-count").textContent = totalRounds - currentRound;
+    if (currentRound >= totalRounds) { showResults(); return; }
+    document.getElementById("round-count").textContent = (totalRounds - currentRound) + "回";
     document.getElementById("undo-btn").disabled = historyLog.length === 0;
 
     if (!isUndo) {
         if (nextLeftIndex !== null && nextRightIndex !== null) {
-            leftIndex = nextLeftIndex;
-            rightIndex = nextRightIndex;
+            leftIndex = nextLeftIndex; rightIndex = nextRightIndex;
         } else {
             let poolIndices = getCandidateIndices();
             let pair = pickValidPair(poolIndices);
-            leftIndex = pair.left;
-            rightIndex = pair.right;
+            leftIndex = pair.left; rightIndex = pair.right;
         }
         preloadNextImages();
     }
 
-    // 表示更新
     document.getElementById("left-img").src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
     document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
@@ -505,84 +581,53 @@ function nextMatch(isUndo = false) {
 
 function vote(result, isSuper = false) {
     if(window.event) window.event.stopPropagation();
-
-    // 対戦履歴への追加と同時に、重複ガード用のSetに登録
-    let pairKey = makePairKey(leftIndex, rightIndex);
-    playedPairs.add(pairKey);
+    let pairKey = makePairKey(leftIndex, rightIndex); playedPairs.add(pairKey);
 
     historyLog.push({
-        leftIndex: leftIndex,
-        rightIndex: rightIndex,
-        leftOldRate: members[leftIndex].rate,
-        rightOldRate: members[rightIndex].rate,
-        wasSkipped: false,
-        pairKey: pairKey // 戻るボタン用に保存
+        leftIndex: leftIndex, rightIndex: rightIndex,
+        leftOldRate: members[leftIndex].rate, rightOldRate: members[rightIndex].rate,
+        wasSkipped: false, pairKey: pairKey
     });
 
-    let leftMember = members[leftIndex];
-    let rightMember = members[rightIndex];
-
+    let leftMember = members[leftIndex]; let rightMember = members[rightIndex];
     let Ea = 1 / (1 + Math.pow(10, (rightMember.rate - leftMember.rate) / 400));
     let Eb = 1 / (1 + Math.pow(10, (leftMember.rate - rightMember.rate) / 400));
-
     let scoreA = result === 0 ? 1 : (result === 1 ? 0 : 0.5);
     let scoreB = result === 1 ? 1 : (result === 0 ? 0 : 0.5);
 
     let currentK = isSuper ? 64 : 32;
-
     leftMember.rate = Math.round(leftMember.rate + currentK * (scoreA - Ea));
     rightMember.rate = Math.round(rightMember.rate + currentK * (scoreB - Eb));
 
-    currentRound++;
-    nextMatch();
+    currentRound++; nextMatch();
 }
 
 function skipMatch() {
-    let pairKey = makePairKey(leftIndex, rightIndex);
-    // スキップされた組み合わせも一旦重複禁止にする（何度も同じ保留カードが出ないようにするため）
-    playedPairs.add(pairKey);
-
+    let pairKey = makePairKey(leftIndex, rightIndex); playedPairs.add(pairKey);
     historyLog.push({
-        leftIndex: leftIndex,
-        rightIndex: rightIndex,
-        leftOldRate: members[leftIndex].rate,
-        rightOldRate: members[rightIndex].rate,
-        wasSkipped: true,
-        pairKey: pairKey
+        leftIndex: leftIndex, rightIndex: rightIndex,
+        leftOldRate: members[leftIndex].rate, rightOldRate: members[rightIndex].rate,
+        wasSkipped: true, pairKey: pairKey
     });
     nextMatch();
 }
 
 function undoMatch() {
     if (historyLog.length === 0) return;
-    
     let previousState = historyLog.pop();
-    leftIndex = previousState.leftIndex;
-    rightIndex = previousState.rightIndex;
-    members[leftIndex].rate = previousState.leftOldRate;
-    members[rightIndex].rate = previousState.rightOldRate;
+    leftIndex = previousState.leftIndex; rightIndex = previousState.rightIndex;
+    members[leftIndex].rate = previousState.leftOldRate; members[rightIndex].rate = previousState.rightOldRate;
+    if (previousState.pairKey) playedPairs.delete(previousState.pairKey);
     
-    // 戻したときは、対戦履歴の重複ガードから削除して再度戦えるようにする
-    if (previousState.pairKey) {
-        playedPairs.delete(previousState.pairKey);
-    }
-    
-    nextLeftIndex = null;
-    nextRightIndex = null;
-
-    if (!previousState.wasSkipped) {
-        currentRound--;
-    }
+    nextLeftIndex = null; nextRightIndex = null;
+    if (!previousState.wasSkipped) currentRound--;
     nextMatch(true);
 }
 
 function showResults() {
     document.getElementById("game-zone").style.display = "none";
-    document.querySelector(".counter").style.display = "none";
     document.getElementById("result-zone").style.display = "block";
-
     let ranking = [...members].sort((a, b) => b.rate - a.rate);
-
     let gridHtml = "";
     for (let i = 0; i < Math.min(9, ranking.length); i++) {
         let groupName = ranking[i].group ? ranking[i].group : "STARTO";
@@ -600,9 +645,6 @@ function showResults() {
     }
     document.getElementById("grid-container").innerHTML = gridHtml;
 }
-
-preloadNextImages();
-nextMatch();
 </script>
 
 </body>
