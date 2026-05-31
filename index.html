@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ジャニーズ 好き顔9選ジェネレータ</title>
+    <title>好き顔9選（STARTOきらきら版）</title>
     <style>
         body { 
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -60,6 +60,24 @@
         }
         .card:active { transform: scale(0.97); }
         
+        .card::after {
+            content: "♥ この顔が好き";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 82, 123, 0.9);
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+        .card:hover::after { opacity: 1; }
+        
         .member-img { 
             width: 100%; 
             aspect-ratio: 1 / 1; 
@@ -97,6 +115,11 @@
             transition: all 0.2s ease;
             box-shadow: 0 4px 15px rgba(255, 110, 167, 0.3);
         }
+        .btn-vote:hover { 
+            opacity: 0.95; 
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(255, 110, 167, 0.4);
+        }
 
         .btn-action {
             width: 100%;
@@ -110,9 +133,12 @@
         }
         
         .btn-draw { background: #fff0f5; color: #ff527b; border: 2px solid #ffdae5; }
+        .btn-draw:hover { background: #ffe3ec; border-color: #ff7699; }
         .btn-undo { background: #ffffff; color: #ff7699; border: 2px solid #ffcbd9; }
+        .btn-undo:hover:not(:disabled) { background: #fff5f7; border-color: #ff7699; }
         .btn-undo:disabled { background: #f5f5f5; color: #cccccc; border-color: #dddddd; cursor: not-allowed; }
         .btn-skip { background: #f7f7fa; color: #9999aa; border: 1px solid #e2e2ea; }
+        .btn-skip:hover { background: #eeeeee; }
 
         .grid-result {
             display: grid;
@@ -122,6 +148,7 @@
             background: #111122; 
             padding: 8px;
             border-radius: 16px;
+            overflow: hidden;
         }
 
         .grid-item {
@@ -142,19 +169,54 @@
         .grid-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.7) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.7) 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 6px;
+            padding: 8px;
             box-sizing: border-box;
             color: white;
             text-align: left;
         }
 
-        .grid-rank { font-size: 16px; font-weight: 900; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
-        .grid-group { font-size: 9px; color: #ffb6c1; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); }
-        .grid-name { font-size: 11px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); }
+        .grid-rank {
+            font-size: 18px;
+            font-weight: 900;
+            font-family: 'Impact', Arial Black, sans-serif;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .grid-text-bottom {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .grid-group {
+            font-size: 10px;
+            font-weight: bold;
+            color: #ffb6c1; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .grid-name {
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .tip-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -166,19 +228,19 @@
     <div id="game-zone">
         <div class="flex-box">
             <div class="card" id="left-card" onclick="vote(0, false)">
-                <img src="" id="left-img" class="member-img" onerror="imgError(this)">
+                <img src="" id="left-img" class="member-img">
                 <div class="member-info">
-                    <div id="left-name" class="member-name">-</div>
-                    <div id="left-group" class="member-group">-</div>
+                    <div id="left-name" class="member-name">左のメンバー</div>
+                    <div id="left-group" class="member-group">グループ名</div>
                     <div id="left-rate" class="member-rate">ELO 1500</div>
                 </div>
             </div>
 
             <div class="card" id="right-card" onclick="vote(1, false)">
-                <img src="" id="right-img" class="member-img" onerror="imgError(this)">
+                <img src="" id="right-img" class="member-img">
                 <div class="member-info">
-                    <div id="right-name" class="member-name">-</div>
-                    <div id="right-group" class="member-group">-</div>
+                    <div id="right-name" class="member-name">右のメンバー</div>
+                    <div id="right-group" class="member-group">グループ名</div>
                     <div id="right-rate" class="member-rate">ELO 1500</div>
                 </div>
             </div>
@@ -199,7 +261,7 @@
     <div id="result-zone" style="display: none;">
         <h3>👑 あなたの好き顔トップ9 👑</h3>
         <div class="grid-result" id="grid-container"></div>
-        <p style="font-size:12px; color:#666;">※スマホのスクショ機能で保存して使ってね！</p>
+        <p class="tip-info">※スマホのスクショ機能で保存して使ってね！</p>
     </div>
 </div>
 
@@ -208,10 +270,10 @@ let members = [
   { id: 1, name: "小山慶一郎", group: "NEWS", rate: 1500, image: "1.jpg" },
   { id: 2, name: "加藤シゲアキ", group: "NEWS", rate: 1500, image: "2.jpg" },
   { id: 3, name: "増田貴久", group: "NEWS", rate: 1500, image: "3.jpg" },
-  { id: 4, name: "堂本剛", group: "KinKi Kids", rate: 1500, image: "4.jpg" },
-  { id: 5, name: "堂本光一", group: "KinKi Kids", rate: 1500, image: "5.jpg" },
+  { id: 4, name: "堂本剛", group: "DOMOTO", rate: 1500, image: "4.jpg" },
+  { id: 5, name: "堂本光一", group: "DOMOTO", rate: 1500, image: "5.jpg" },
   { id: 6, name: "大野智", group: "嵐", rate: 1500, image: "6.jpg" },
-  { id: 7, name: "櫻井翔", group: "嵐", rate: 1500, image: "7.jpeg" },
+  { id: 7, name: "櫻井翔", group: "嵐", rate: 1500, image: "7.jpg" }, 
   { id: 8, name: "松本潤", group: "嵐", rate: 1500, image: "8.jpg" },
   { id: 9, name: "相葉雅紀", group: "嵐", rate: 1500, image: "9.jpg" },
   { id: 10, name: "二宮和也", group: "嵐", rate: 1500, image: "10.jpg" },
@@ -236,57 +298,83 @@ let members = [
   { id: 29, name: "佐藤勝利", group: "timelesz", rate: 1500, image: "29.jpg" },
   { id: 30, name: "菊池風磨", group: "timelesz", rate: 1500, image: "30.jpg" },
   { id: 31, name: "松島聡", group: "timelesz", rate: 1500, image: "31.jpg" },
-  { id: 32, name: "永瀬廉", group: "King & Prince", rate: 1500, image: "100.jpg" },
-  { id: 33, name: "髙橋海人", group: "King & Prince", rate: 1500, image: "101.jpg" },
-  { id: 34, name: "中島健人", group: "Solo", rate: 1500, image: "37.jpg" },
-  { id: 35, name: "橋本良亮", group: "A.B.C-Z", rate: 1500, image: "38.jpg" },
-  { id: 36, name: "戸塚祥太", group: "A.B.C-Z", rate: 1500, image: "39.jpg" },
-  { id: 37, name: "五関晃一", group: "A.B.C-Z", rate: 1500, image: "40.jpg" },
-  { id: 38, name: "塚田僚一", group: "A.B.C-Z", rate: 1500, image: "41.jpg" },
-  { id: 39, name: "重岡大毅", group: "WEST.", rate: 1500, image: "42.jpg" },
-  { id: 40, name: "桐山照史", group: "WEST.", rate: 1500, image: "43.jpg" },
-  { id: 41, name: "中間淳太", group: "WEST.", rate: 1500, image: "44.jpg" },
-  { id: 42, name: "神山智洋", group: "WEST.", rate: 1500, image: "45.jpg" },
-  { id: 43, name: "藤井流星", group: "WEST.", rate: 1500, image: "44.jpg" },
-  { id: 44, name: "濵田崇裕", group: "WEST.", rate: 1500, image: "47.jpg" },
-  { id: 45, name: "小瀧望", group: "WEST.", rate: 1500, image: "48.jpg" },
-  { id: 46, name: "ジェシー", group: "SixTONES", rate: 1500, image: "49.jpg" },
-  { id: 47, name: "京本大我", group: "SixTONES", rate: 1500, image: "50.jpg" },
-  { id: 48, name: "松村北斗", group: "SixTONES", rate: 1500, image: "51.jpg" },
-  { id: 49, name: "髙地優吾", group: "SixTONES", rate: 1500, image: "52.jpg" },
-  { id: 50, name: "森本慎太郎", group: "SixTONES", rate: 1500, image: "53.jpg" },
-  { id: 51, name: "田中樹", group: "SixTONES", rate: 1500, image: "54.jpg" },
-  { id: 52, name: "岩本照", group: "Snow Man", rate: 1500, image: "55.jpg" },
-  { id: 53, name: "深澤辰哉", group: "Snow Man", rate: 1500, image: "56.jpg" },
-  { id: 54, name: "ラウール", group: "Snow Man", rate: 1500, image: "57.jpg" },
-  { id: 55, name: "渡辺翔太", group: "Snow Man", rate: 1500, image: "58.jpg" },
-  { id: 56, name: "向井康二", group: "Snow Man", rate: 1500, image: "59.jpg" },
-  { id: 57, name: "阿部亮平", group: "Snow Man", rate: 1500, image: "60.jpg" },
-  { id: 58, name: "目黒蓮", group: "Snow Man", rate: 1500, image: "61.jpg" },
-  { id: 59, name: "宮舘涼太", group: "Snow Man", rate: 1500, image: "62.jpg" },
-  { id: 60, name: "佐久間大介", group: "Snow Man", rate: 1500, image: "63.jpg" },
-  { id: 61, name: "西畑大吾", group: "なにわ男子", rate: 1500, image: "64.jpg" },
-  { id: 62, name: "大西流星", group: "なにわ男子", rate: 1500, image: "65.jpg" },
-  { id: 63, name: "道枝駿佑", group: "なにわ男子", rate: 1500, image: "66.jpg" },
-  { id: 64, name: "高橋恭平", group: "なにわ男子", rate: 1500, image: "67.jpg" },
-  { id: 65, name: "長尾謙杜", group: "なにわ男子", rate: 1500, image: "68.jpg" },
-  { id: 66, name: "藤原丈一郎", group: "なにわ男子", rate: 1500, image: "69.jpg" },
-  { id: 70, name: "大橋和也", group: "なにわ男子", rate: 1500, image: "70.jpg" }
+  { id: 32, name: "寺西拓人", group: "timelesz", rate: 1500, image: "32.jpg" },
+  { id: 33, name: "原嘉孝", group: "timelesz", rate: 1500, image: "33.jpg" },
+  { id: 34, name: "橋本将生", group: "timelesz", rate: 1500, image: "34.jpg" },
+  { id: 35, name: "猪俣周杜", group: "timelesz", rate: 1500, image: "35.jpg" },
+  { id: 36, name: "篠塚大輝", group: "timelesz", rate: 1500, image: "36.jpg" },
+  { id: 37, name: "中島健人", group: "Solo", rate: 1500, image: "37.jpg" },
+  { id: 38, name: "橋本良亮", group: "A.B.C-Z", rate: 1500, image: "38.jpg" },
+  { id: 39, name: "戸塚祥太", group: "A.B.C-Z", rate: 1500, image: "39.jpg" },
+  { id: 40, name: "五関晃一", group: "A.B.C-Z", rate: 1500, image: "40.jpg" },
+  { id: 41, name: "塚田僚一", group: "A.B.C-Z", rate: 1500, image: "41.jpg" },
+  { id: 42, name: "重岡大毅", group: "WEST.", rate: 1500, image: "42.jpg" },
+  { id: 43, name: "桐山照史", group: "WEST.", rate: 1500, image: "43.jpg" },
+  { id: 44, name: "中間淳太", group: "WEST.", rate: 1500, image: "44.jpg" },
+  { id: 45, name: "神山智洋", group: "WEST.", rate: 1500, image: "45.jpg" },
+  { id: 46, name: "藤井流星", group: "WEST.", rate: 1500, image: "46.jpg" },
+  { id: 47, name: "濵田崇裕", group: "WEST.", rate: 1500, image: "47.jpg" },
+  { id: 48, name: "小瀧望", group: "WEST.", rate: 1500, image: "48.jpg" },
+  { id: 49, name: "ジェシー", group: "SixTONES", rate: 1500, image: "49.jpg" },
+  { id: 50, name: "京本大我", group: "SixTONES", rate: 1500, image: "50.jpg" },
+  { id: 51, name: "松村北斗", group: "SixTONES", rate: 1500, image: "51.jpg" },
+  { id: 52, name: "髙地優吾", group: "SixTONES", rate: 1500, image: "52.jpg" },
+  { id: 53, name: "森本慎太郎", group: "SixTONES", rate: 1500, image: "53.jpg" },
+  { id: 54, name: "田中樹", group: "SixTONES", rate: 1500, image: "54.jpg" },
+  { id: 55, name: "岩本照", group: "Snow Man", rate: 1500, image: "55.jpg" },
+  { id: 56, name: "深澤辰哉", group: "Snow Man", rate: 1500, image: "56.jpg" },
+  { id: 57, name: "ラウール", group: "Snow Man", rate: 1500, image: "57.jpg" },
+  { id: 58, name: "渡辺翔太", group: "Snow Man", rate: 1500, image: "58.jpg" },
+  { id: 59, name: "向井康二", group: "Snow Man", rate: 1500, image: "59.jpg" },
+  { id: 60, name: "阿部亮平", group: "Snow Man", rate: 1500, image: "60.jpg" },
+  { id: 61, name: "目黒蓮", group: "Snow Man", rate: 1500, image: "61.jpg" },
+  { id: 62, name: "宮舘涼太", group: "Snow Man", rate: 1500, image: "62.jpg" },
+  { id: 63, name: "佐久間大介", group: "Snow Man", rate: 1500, image: "63.jpg" },
+  { id: 64, name: "西畑大吾", group: "なにわ男子", rate: 1500, image: "64.jpg" },
+  { id: 65, name: "大西流星", group: "なにわ男子", rate: 1500, image: "65.jpg" },
+  { id: 66, name: "道枝駿佑", group: "なにわ男子", rate: 1500, image: "66.jpg" },
+  { id: 67, name: "高橋恭平", group: "なにわ男子", rate: 1500, image: "67.jpg" },
+  { id: 68, name: "長尾謙杜", group: "なにわ男子", rate: 1500, image: "68.jpg" },
+  { id: 69, name: "藤原丈一郎", group: "なにわ男子", rate: 1500, image: "69.jpg" },
+  { id: 70, name: "大橋和也", group: "なにわ男子", rate: 1500, image: "70.jpg" },
+  { id: 71, name: "宮近海斗", group: "Travis Japan", rate: 1500, image: "71.jpg" },
+  { id: 72, name: "中村海人", group: "Travis Japan", rate: 1500, image: "72.jpg" },
+  { id: 73, name: "七五三掛龍也", group: "Travis Japan", rate: 1500, image: "73.jpg" },
+  { id: 74, name: "川島如恵留", group: "Travis Japan", rate: 1500, image: "74.jpg" },
+  { id: 75, name: "吉澤閑也", group: "Travis Japan", rate: 1500, image: "75.jpg" },
+  { id: 76, name: "松田元太", group: "Travis Japan", rate: 1500, image: "76.jpg" },
+  { id: 77, name: "松倉海斗", group: "Travis Japan", rate: 1500, image: "77.jpg" },
+  { id: 78, name: "正門良規", group: "Aぇ! group", rate: 1500, image: "78.jpg" },
+  { id: 79, name: "末澤誠也", group: "Aぇ! group", rate: 1500, image: "79.jpg" },
+  { id: 80, name: "小島健", group: "Aぇ! group", rate: 1500, image: "80.jpg" },
+  { id: 81, name: "佐野晶哉", group: "Aぇ! group", rate: 1500, image: "81.jpg" },
+  { id: 82, name: "浮所飛貴", group: "ACEes", rate: 1500, image: "82.jpg" },
+  { id: 83, name: "那須雄登", group: "ACEes", rate: 1500, image: "83.jpg" },
+  { id: 84, name: "作間龍斗", group: "ACEes", rate: 1500, image: "84.jpg" },
+  { id: 85, name: "深田竜生", group: "ACEes", rate: 1500, image: "85.jpg" },
+  { id: 86, name: "佐藤佐藤龍我", group: "ACEes", rate: 1500, image: "86.jpg" },
+  { id: 87, name: "岩崎大昇", group: "KEY TO LIT", rate: 1500, image: "87.jpg" },
+  { id: 88, name: "井上瑞稀", group: "KEY TO LIT", rate: 1500, image: "88.jpg" },
+  { id: 89, name: "中村嶺亜", group: "KEY TO LIT", rate: 1500, image: "89.jpg" },
+  { id: 90, name: "猪狩蒼弥", group: "KEY TO LIT", rate: 1500, image: "90.jpg" },
+  { id: 91, name: "佐々木大光", group: "KEY TO LIT", rate: 1500, image: "91.jpg" },
+  { id: 92, name: "橋本涼", group: "B&ZAI", rate: 1500, image: "92.jpg" },
+  { id: 93, name: "矢花黎", group: "B&ZAI", rate: 1500, image: "93.jpg" },
+  { id: 94, name: "今野大輝", group: "B&ZAI", rate: 1500, image: "94.jpg" },
+  { id: 95, name: "菅田凛寧", group: "B&ZAI", rate: 1500, image: "95.jpg" },
+  { id: 96, name: "本髙克樹", group: "B&ZAI", rate: 1500, image: "96.jpg" },
+  { id: 97, name: "鈴木悠仁", group: "B&ZAI", rate: 1500, image: "97.jpg" },
+  { id: 98, name: "川﨑星輝", group: "B&ZAI", rate: 1500, image: "98.jpg" },
+  { id: 99, name: "稲葉通陽", group: "B&ZAI", rate: 1500, image: "99.jpg" },
+  { id: 100, name: "永瀬廉", group: "King & Prince", rate: 1500, image: "100.jpg" },
+  { id: 101, name: "髙橋海人", group: "King & Prince", rate: 1500, image: "101.jpg" }
 ];
 
+const K_FACTOR = 32;
 let totalRounds = 150; 
 let currentRound = 0;
 let leftIndex, rightIndex;
 let historyLog = [];
-
-// もし「.jpg」で読み込めなかったら「.jpeg」を試す自動レスキュー機能
-function imgError(image) {
-    if (image.src.endsWith(".jpg")) {
-        image.src = image.src.replace(".jpg", ".jpeg");
-    } else if (image.src.endsWith(".jpeg")) {
-        image.src = image.src.replace(".jpeg", ".png");
-    }
-}
 
 function nextMatch(isUndo = false) {
     if (currentRound >= totalRounds) {
@@ -306,18 +394,22 @@ function nextMatch(isUndo = false) {
         rightIndex = pool[Math.floor(Math.random() * pool.length)].index;
     }
 
+    // 更新（左）
     document.getElementById("left-img").src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
-    document.getElementById("left-group").textContent = members[leftIndex].group;
+    document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
     document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
     
+    // 更新（右）
     document.getElementById("right-img").src = members[rightIndex].image;
     document.getElementById("right-name").textContent = members[rightIndex].name;
-    document.getElementById("right-group").textContent = members[rightIndex].group;
+    document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
     document.getElementById("right-rate").textContent = "ELO " + members[rightIndex].rate;
 }
 
 function vote(result, isSuper = false) {
+    if(window.event) window.event.stopPropagation();
+
     historyLog.push({
         leftIndex: leftIndex,
         rightIndex: rightIndex,
@@ -379,13 +471,15 @@ function showResults() {
 
     let gridHtml = "";
     for (let i = 0; i < Math.min(9, ranking.length); i++) {
+        let groupName = ranking[i].group ? ranking[i].group : "STARTO";
+        
         gridHtml += `
             <div class="grid-item">
-                <img src="${ranking[i].image}" onerror="imgError(this)">
+                <img src="${ranking[i].image}">
                 <div class="grid-overlay">
-                    <div class="grid-rank">#${i+1}</div>
+                    <div class="grid-rank">#13${i+1}</div>
                     <div class="grid-text-bottom">
-                        <div class="grid-group">${ranking[i].group}</div>
+                        <div class="grid-group">${groupName}</div>
                         <div class="grid-name">${ranking[i].name}</div>
                     </div>
                 </div>
