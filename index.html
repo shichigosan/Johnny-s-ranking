@@ -60,10 +60,11 @@
         }
         .card:active { transform: scale(0.97); }
         
+        /* 修正前を消して、ここから差し替え */
         .card::after {
             content: "♥ この顔が好き";
             position: absolute;
-            top: 10px;
+            bottom: 10px; /* 位置を下に変更 */
             left: 50%;
             transform: translateX(-50%);
             background: rgba(255, 82, 123, 0.9);
@@ -75,8 +76,13 @@
             opacity: 0;
             transition: opacity 0.2s ease;
             pointer-events: none;
+            z-index: 2;
         }
-        .card:hover::after { opacity: 1; }
+        
+        /* パソコン（マウス操作）のときだけ表示する */
+        @media (hover: hover) {
+            .card:hover::after { opacity: 1; }
+        }
         
         .member-img { 
             width: 100%; 
