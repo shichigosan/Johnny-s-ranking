@@ -81,7 +81,7 @@
             position: relative;
         }
         .card:hover { border-color: #ff7699; transform: translateY(-4px); }
-        .member-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: #fafafa; }
+        .member-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: #fafafa; opacity: 1; transition: opacity 0.1s ease; }
         .member-info { padding: 14px 5px; background: #fff; }
         .member-name { font-weight: bold; font-size: 16px; color: #444; margin-bottom: 4px; }
         .member-group { font-size: 12px; color: #888899; font-weight: bold; }
@@ -220,7 +220,7 @@
             <div class="card" id="left-card" onclick="vote(0, false)">
                 <img src="" id="left-img" class="member-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="member-info">
-                    <div id="left-name" class="member-name">左のメンバー</div>
+                    <div id="left-name" class="member-name">左 of メンバー</div>
                     <div id="left-group" class="member-group">グループ名</div>
                     <div id="left-rate" class="member-rate">ELO 1500</div>
                 </div>
@@ -229,7 +229,7 @@
             <div class="card" id="right-card" onclick="vote(1, false)">
                 <img src="" id="right-img" class="member-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'><rect width=\'100%\' height=\'100%\' fill=\'%23eeeeee\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\' fill=\'%23aaaaaa\'>No Image</text></svg>';">
                 <div class="member-info">
-                    <div id="right-name" class="member-name">右のメンバー</div>
+                    <div id="right-name" class="member-name">右 of メンバー</div>
                     <div id="right-group" class="member-group">グループ名</div>
                     <div id="right-rate" class="member-rate">ELO 1500</div>
                 </div>
@@ -533,15 +533,25 @@ function nextMatch() {
     let pair = pickValidPair(poolIndices);
     leftIndex = pair.left; rightIndex = pair.right;
 
-    document.getElementById("left-img").src = members[leftIndex].image;
+    // ★ラグ対策：読み込みが始まる前に、透明度を下げて前の画像を一瞬で見えなくする
+    let leftImg = document.getElementById("left-img");
+    let rightImg = document.getElementById("right-img");
+    leftImg.style.opacity = 0;
+    rightImg.style.opacity = 0;
+
+    leftImg.src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
     document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
     document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
     
-    document.getElementById("right-img").src = members[rightIndex].image;
+    rightImg.src = members[rightIndex].image;
     document.getElementById("right-name").textContent = members[rightIndex].name;
     document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
     document.getElementById("right-rate").textContent = "ELO " + members[rightIndex].rate;
+
+    // 画像が読み込み終わったらフワッと表示させる（これによってチグハグ現象を防ぐ）
+    leftImg.onload = () => { leftImg.style.opacity = 1; };
+    rightImg.onload = () => { rightImg.style.opacity = 1; };
 }
 
 function vote(result, isSuper = false) {
@@ -586,19 +596,26 @@ function undoMatch() {
     
     if (!previousState.wasSkipped) currentRound--;
     
-    // 直前の状態をそのまま画面に再描画
     document.getElementById("round-count").textContent = (totalRounds - currentRound) + "回";
     document.getElementById("undo-btn").disabled = historyLog.length === 0;
     
-    document.getElementById("left-img").src = members[leftIndex].image;
+    let leftImg = document.getElementById("left-img");
+    let rightImg = document.getElementById("right-img");
+    leftImg.style.opacity = 0;
+    rightImg.style.opacity = 0;
+
+    leftImg.src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
     document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
     document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
     
-    document.getElementById("right-img").src = members[rightIndex].image;
+    rightImg.src = members[rightIndex].image;
     document.getElementById("right-name").textContent = members[rightIndex].name;
     document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
     document.getElementById("right-rate").textContent = "ELO " + members[rightIndex].rate;
+
+    leftImg.onload = () => { leftImg.style.opacity = 1; };
+    rightImg.onload = () => { rightImg.style.opacity = 1; };
 }
 
 function showResults() {
