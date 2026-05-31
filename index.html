@@ -190,12 +190,13 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        .grid-text-bottom {
+        ..grid-text-bottom {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
 
+        /* パソコン版（元の設定をキープ） */
         .grid-group {
             font-size: 10px;
             font-weight: bold;
@@ -213,6 +214,16 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        /* スマホ版（画面幅が600px以下のときだけ上書き） */
+        @media (max-width: 600px) {
+            .grid-group {
+                font-size: 9px;
+            }
+            .grid-name {
+                font-size: 11px;
+            }
         }
         
         .tip-info {
