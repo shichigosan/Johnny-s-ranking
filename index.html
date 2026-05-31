@@ -208,7 +208,7 @@
             </button>
             <button class="btn-mode" onclick="startWithMode('glitch')">
                 <h4>⚡ グリッチモード (自分の意思で9人選ぶ)</h4>
-                <p>制限時間は1分間！102人の全リストから、枠をタップしてあなたの意思で直感のトップ9を埋め尽くせ！</p>
+                <p>102人の全リストから、空いている枠をタップしてあなたの意思で直感のトップ9を埋め尽くせ！</p>
             </button>
         </div>
     </div>
@@ -254,7 +254,7 @@
     <div id="glitch-zone" style="display: none;">
         <h3>⚡ グリッチモード ⚡</h3>
         <p class="counter">✨ 直感で9人選ぼう！ ✨</p>
-        <p style="font-size: 13px; color: #666; margin: -10px 0 15px 0;">空いている枠をタップして、直感で推しを9人選んでね！</p>
+        <p style="font-size: 13px; color: #666; margin: -10px 0 15px 0;">空いている枠をタップして、推しを9人選んでね！</p>
         <div class="grid-result" id="glitch-grid-container"></div>
         <button class="btn-submit-glitch" onclick="finishGlitchMode()">✨ これで結果発表画面を作る！</button>
     </div>
@@ -296,7 +296,7 @@ let members = [
   { id: 14, name: "横山裕", group: "SUPER EIGHT", image: "14.jpg", rate: 1500 },
   { id: 15, name: "丸山隆平", group: "SUPER EIGHT", image: "15.jpg", rate: 1500 },
   { id: 16, name: "山田涼介", group: "Hey! Say! JUMP", image: "16.jpg", rate: 1500 },
-  { id: 17, name: "開岡大貴", group: "Hey! Say! JUMP", image: "17.jpg", rate: 1500 },
+  { id: 17, name: "有岡大貴", group: "Hey! Say! JUMP", image: "17.jpg", rate: 1500 },
   { id: 18, name: "知念侑李", group: "Hey! Say! JUMP", image: "18.jpg", rate: 1500 },
   { id: 19, name: "伊野尾慧", group: "Hey! Say! JUMP", image: "19.jpg", rate: 1500 },
   { id: 20, name: "髙木雄也", group: "Hey! Say! JUMP", image: "20.jpg", rate: 1500 },
@@ -365,7 +365,7 @@ let members = [
   { id: 83, name: "那須雄登", group: "ACEes", image: "83.jpg", rate: 1500 },
   { id: 84, name: "作間龍斗", group: "ACEes", image: "84.jpg", rate: 1500 },
   { id: 85, name: "深田竜生", group: "ACEes", image: "85.jpg", rate: 1500 },
-  { id: 86, name: "佐藤龍我", group: "ACEes", image: "86.jpg", rate: 1500 },
+  { id: 86, name: "佐藤佐藤", group: "ACEes", image: "86.jpg", rate: 1500 },
   { id: 87, name: "岩崎大昇", group: "KEY TO LIT", image: "87.jpg", rate: 1500 },
   { id: 88, name: "井上瑞稀", group: "KEY TO LIT", image: "88.jpg", rate: 1500 },
   { id: 89, name: "中村嶺亜", group: "KEY TO LIT", image: "89.jpg", rate: 1500 },
@@ -394,15 +394,12 @@ let nextLeftIndex = null, nextRightIndex = null;
 // グリッチモード用の管理配列 (9枠分)
 let glitchSlots = Array(9).fill(null);
 let activeSlotIndex = null;
-let glitchTimerInterval = null;
-let glitchTimeLeft = 60;
 
 function startWithMode(mode) {
     if (mode === 'glitch') {
-    document.getElementById("setup-zone").style.display = "none";
-    document.getElementById("glitch-zone").style.display = "block";
-    renderGlitchGrid();
-}
+        document.getElementById("setup-zone").style.display = "none";
+        document.getElementById("glitch-zone").style.display = "block";
+        renderGlitchGrid();
     } else {
         // 通常対戦モード
         document.getElementById("setup-zone").style.display = "none";
@@ -472,7 +469,7 @@ function selectMemberForSlot(memberId) {
 }
 
 function finishGlitchMode() {
-    document.getElementById("setup-zone").style.display = "none"; // 安全のためsetupも非表示に
+    document.getElementById("setup-zone").style.display = "none";
     document.getElementById("glitch-zone").style.display = "none";
     document.getElementById("result-zone").style.display = "block";
 
