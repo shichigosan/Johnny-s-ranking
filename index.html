@@ -24,6 +24,13 @@
             box-shadow: 0 12px 32px rgba(255, 182, 193, 0.2); 
         }
 
+        /* スマホのときはコンテナ自体の左右の余白をギリギリまで削る */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 10px; /* 20pxから10pxに狭めて横幅を確保 */
+            }
+        }
+
         h2, h3 { 
             font-size: 22px; 
             margin-top: 0;
@@ -143,7 +150,7 @@
         .btn-skip { background: #f7f7fa; color: #9999aa; border: 1px solid #e2e2ea; }
         .btn-skip:hover { background: #eeeeee; }
 
-        .grid-result {
+       .grid-result {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
             gap: 6px; 
@@ -152,6 +159,14 @@
             padding: 8px;
             border-radius: 16px;
             overflow: hidden;
+        }
+
+        /* スマホのときは黒い枠の余白も少し詰めて画像を大きくする */
+        @media (max-width: 600px) {
+            .grid-result {
+                padding: 4px; /* 8pxから4pxに削って画像を拡大 */
+                gap: 4px;     /* 画像同士の隙間も少し詰める */
+            }
         }
 
         .grid-item {
