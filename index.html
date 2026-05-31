@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>好き顔9選（STARTOきらきら版）</title>
+    <title>ジャニーズ 好き顔9選ジェネレータ</title>
     <style>
         body { 
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
@@ -88,18 +88,7 @@
 
         .member-info { padding: 14px 5px; background: #fff; }
         .member-name { font-weight: bold; font-size: 16px; color: #444; margin-bottom: 4px; }
-        
-        /* 対戦カードのグループ名用スタイル */
-        .member-group { 
-            font-size: 12px; 
-            color: #888899; 
-            font-weight: bold; 
-            margin-bottom: 6px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
+        .member-group { font-size: 12px; color: #888899; font-weight: bold; margin-bottom: 6px;}
         .member-rate { font-size: 12px; color: #a09be7; font-weight: bold; letter-spacing: 0.5px; }
 
         .button-area { 
@@ -151,7 +140,6 @@
         .btn-skip { background: #f7f7fa; color: #9999aa; border: 1px solid #e2e2ea; }
         .btn-skip:hover { background: #eeeeee; }
 
-        /* 👑 エモい9分割グリッド結果画面のスタイル 👑 */
         .grid-result {
             display: grid;
             grid-template-columns: repeat(3, 1fr); 
@@ -279,107 +267,107 @@
 
 <script>
 let members = [
-  { id: 1, name: "小山慶一郎", group: "NEWS", rate: 1500, image: "images/1.jpg" },
-  { id: 2, name: "加藤シゲアキ", group: "NEWS", rate: 1500, image: "images/2.jpg" },
-  { id: 3, name: "増田貴久", group: "NEWS", rate: 1500, image: "images/3.jpg" },
-  { id: 4, name: "堂本剛", group: "DOMOTO", rate: 1500, image: "images/4.jpg" },
-  { id: 5, name: "堂本光一", group: "DOMOTO", rate: 1500, image: "images/5.jpg" },
-  { id: 6, name: "大野智", group: "嵐", rate: 1500, image: "images/6.jpg" },
-  { id: 7, name: "櫻井翔", group: "嵐", rate: 1500, image: "images/7.jpg" },
-  { id: 8, name: "松本潤", group: "嵐", rate: 1500, image: "images/8.jpg" },
-  { id: 9, name: "相葉雅紀", group: "嵐", rate: 1500, image: "images/9.jpg" },
-  { id: 10, name: "二宮和也", group: "嵐", rate: 1500, image: "images/10.jpg" },
-  { id: 11, name: "大倉忠義", group: "SUPER EIGHT", rate: 1500, image: "images/11.jpg" },
-  { id: 12, name: "安田章大", group: "SUPER EIGHT", rate: 1500, image: "images/12.jpg" },
-  { id: 13, name: "村上信五", group: "SUPER EIGHT", rate: 1500, image: "images/13.jpg" },
-  { id: 14, name: "横山裕", group: "SUPER EIGHT", rate: 1500, image: "images/14.jpg" },
-  { id: 15, name: "丸山隆平", group: "SUPER EIGHT", rate: 1500, image: "images/15.jpg" },
-  { id: 16, name: "山田涼介", group: "Hey! Say! JUMP", rate: 1500, image: "images/16.jpg" },
-  { id: 17, name: "有岡大貴", group: "Hey! Say! JUMP", rate: 1500, image: "images/17.jpg" },
-  { id: 18, name: "知念侑李", group: "Hey! Say! JUMP", rate: 1500, image: "images/18.jpg" },
-  { id: 19, name: "伊野尾慧", group: "Hey! Say! JUMP", rate: 1500, image: "images/19.jpg" },
-  { id: 20, name: "髙木雄也", group: "Hey! Say! JUMP", rate: 1500, image: "images/20.jpg" },
-  { id: 21, name: "八乙女光", group: "Hey! Say! JUMP", rate: 1500, image: "images/21.jpg" },
-  { id: 22, name: "薮宏太", group: "Hey! Say! JUMP", rate: 1500, image: "images/22.jpg" },
-  { id: 23, name: "千賀健永", group: "Kis-My-Ft2", rate: 1500, image: "images/23.jpg" },
-  { id: 24, name: "横尾渉", group: "Kis-My-Ft2", rate: 1500, image: "images/24.jpg" },
-  { id: 25, name: "宮田俊哉", group: "Kis-My-Ft2", rate: 1500, image: "images/25.jpg" },
-  { id: 26, name: "玉森裕太", group: "Kis-My-Ft2", rate: 1500, image: "images/26.jpg" },
-  { id: 27, name: "藤ヶ谷太輔", group: "Kis-My-Ft2", rate: 1500, image: "images/27.jpg" },
-  { id: 28, name: "二階堂高嗣", group: "Kis-My-Ft2", rate: 1500, image: "images/28.jpg" },
-  { id: 29, name: "佐藤勝利", group: "timelesz", rate: 1500, image: "images/29.jpg" },
-  { id: 30, name: "菊池風磨", group: "timelesz", rate: 1500, image: "images/30.jpg" },
-  { id: 31, name: "松島聡", group: "timelesz", rate: 1500, image: "images/31.jpg" },
-  { id: 32, name: "寺西拓人", group: "timelesz", rate: 1500, image: "images/32.jpg" },
-  { id: 33, name: "原嘉孝", group: "timelesz", rate: 1500, image: "images/33.jpg" },
-  { id: 34, name: "橋本将生", group: "timelesz", rate: 1500, image: "images/34.jpg" },
-  { id: 35, name: "猪俣周杜", group: "timelesz", rate: 1500, image: "images/35.jpg" },
-  { id: 36, name: "篠塚大輝", group: "timelesz", rate: 1500, image: "images/36.jpg" },
-  { id: 37, name: "中島健人", group: "Solo", rate: 1500, image: "images/37.jpg" },
-  { id: 38, name: "橋本良亮", group: "A.B.C-Z", rate: 1500, image: "images/38.jpg" },
-  { id: 39, name: "戸塚祥太", group: "A.B.C-Z", rate: 1500, image: "images/39.jpg" },
-  { id: 40, name: "五関晃一", group: "A.B.C-Z", rate: 1500, image: "images/40.jpg" },
-  { id: 41, name: "塚田僚一", group: "A.B.C-Z", rate: 1500, image: "images/41.jpg" },
-  { id: 42, name: "重岡大毅", group: "WEST.", rate: 1500, image: "images/42.jpg" },
-  { id: 43, name: "桐山照史", group: "WEST.", rate: 1500, image: "images/43.jpg" },
-  { id: 44, name: "中間淳太", group: "WEST.", rate: 1500, image: "images/44.jpg" },
-  { id: 45, name: "神山智洋", group: "WEST.", rate: 1500, image: "images/45.jpg" },
-  { id: 46, name: "藤井流星", group: "WEST.", rate: 1500, image: "images/46.jpg" },
-  { id: 47, name: "濵田崇裕", group: "WEST.", rate: 1500, image: "images/47.jpg" },
-  { id: 48, name: "小瀧望", group: "WEST.", rate: 1500, image: "images/48.jpg" },
-  { id: 49, name: "ジェシー", group: "SixTONES", rate: 1500, image: "images/49.jpg" },
-  { id: 50, name: "京本大我", group: "SixTONES", rate: 1500, image: "images/50.jpg" },
-  { id: 51, name: "松村北斗", group: "SixTONES", rate: 1500, image: "images/51.jpg" },
-  { id: 52, name: "髙地優吾", group: "SixTONES", rate: 1500, image: "images/52.jpg" },
-  { id: 53, name: "森本慎太郎", group: "SixTONES", rate: 1500, image: "images/53.jpg" },
-  { id: 54, name: "田中樹", group: "SixTONES", rate: 1500, image: "images/54.jpg" },
-  { id: 55, name: "岩本照", group: "Snow Man", rate: 1500, image: "images/55.jpg" },
-  { id: 56, name: "深澤辰哉", group: "Snow Man", rate: 1500, image: "images/56.jpg" },
-  { id: 57, name: "ラウール", group: "Snow Man", rate: 1500, image: "images/57.jpg" },
-  { id: 58, name: "渡辺翔太", group: "Snow Man", rate: 1500, image: "images/58.jpg" },
-  { id: 59, name: "向井康二", group: "Snow Man", rate: 1500, image: "images/59.jpg" },
-  { id: 60, name: "阿部亮平", group: "Snow Man", rate: 1500, image: "images/60.jpg" },
-  { id: 61, name: "目黒蓮", group: "Snow Man", rate: 1500, image: "images/61.jpg" },
-  { id: 62, name: "宮舘涼太", group: "Snow Man", rate: 1500, image: "images/62.jpg" },
-  { id: 63, name: "佐久間大介", group: "Snow Man", rate: 1500, image: "images/63.jpg" },
-  { id: 64, name: "西畑大吾", group: "なにわ男子", rate: 1500, image: "images/64.jpg" },
-  { id: 65, name: "大西流星", group: "なにわ男子", rate: 1500, image: "images/65.jpg" },
-  { id: 66, name: "道枝駿佑", group: "なにわ男子", rate: 1500, image: "images/66.jpg" },
-  { id: 67, name: "高橋恭平", group: "なにわ男子", rate: 1500, image: "images/67.jpg" },
-  { id: 68, name: "長尾謙杜", group: "なにわ男子", rate: 1500, image: "images/68.jpg" },
-  { id: 69, name: "藤原丈一郎", group: "なにわ男子", rate: 1500, image: "images/69.jpg" },
-  { id: 70, name: "大橋和也", group: "なにわ男子", rate: 1500, image: "images/70.jpg" },
-  { id: 71, name: "宮近海斗", group: "Travis Japan", rate: 1500, image: "images/71.jpg" },
-  { id: 72, name: "中村海人", group: "Travis Japan", rate: 1500, image: "images/72.jpg" },
-  { id: 73, name: "七五三掛龍也", group: "Travis Japan", rate: 1500, image: "images/73.jpg" },
-  { id: 74, name: "川島如恵留", group: "Travis Japan", rate: 1500, image: "images/74.jpg" },
-  { id: 75, name: "吉澤閑也", group: "Travis Japan", rate: 1500, image: "images/75.jpg" },
-  { id: 76, name: "松田元太", group: "Travis Japan", rate: 1500, image: "images/76.jpg" },
-  { id: 77, name: "松倉海斗", group: "Travis Japan", rate: 1500, image: "images/77.jpg" },
-  { id: 78, name: "正門良規", group: "Aぇ! group", rate: 1500, image: "images/78.jpg" },
-  { id: 79, name: "末澤誠也", group: "Aぇ! group", rate: 1500, image: "images/79.jpg" },
-  { id: 80, name: "小島健", group: "Aぇ! group", rate: 1500, image: "images/80.jpg" },
-  { id: 81, name: "佐野晶哉", group: "Aぇ! group", rate: 1500, image: "images/81.jpg" },
-  { id: 82, name: "浮所飛貴", group: "ACEes", rate: 1500, image: "images/82.jpg" },
-  { id: 83, name: "那須雄登", group: "ACEes", rate: 1500, image: "images/83.jpg" },
-  { id: 84, name: "作間龍斗", group: "ACEes", rate: 1500, image: "images/84.jpg" },
-  { id: 85, name: "深田竜生", group: "ACEes", rate: 1500, image: "images/85.jpg" },
-  { id: 86, name: "佐藤佐藤龍我", group: "ACEes", rate: 1500, image: "images/86.jpg" },
-  { id: 87, name: "岩崎大昇", group: "KEY TO LIT", rate: 1500, image: "images/87.jpg" },
-  { id: 88, name: "井上瑞稀", group: "KEY TO LIT", rate: 1500, image: "images/88.jpg" },
-  { id: 89, name: "中村嶺亜", group: "KEY TO LIT", rate: 1500, image: "images/89.jpg" },
-  { id: 90, name: "猪狩蒼弥", group: "KEY TO LITs", rate: 1500, image: "images/90.jpg" },
-  { id: 91, name: "佐々木大光", group: "KEY TO LIT", rate: 1500, image: "images/91.jpg" },
-  { id: 92, name: "橋本涼", group: "B&ZAI", rate: 1500, image: "images/92.jpg" },
-  { id: 93, name: "矢花黎", group: "B&ZAI", rate: 1500, image: "images/93.jpg" },
-  { id: 94, name: "今野大輝", group: "B&ZAI", rate: 1500, image: "images/94.jpg" },
-  { id: 95, name: "菅田凛寧", group: "B&ZAI", rate: 1500, image: "images/95.jpg" },
-  { id: 96, name: "本髙克樹", group: "B&ZAI", rate: 1500, image: "images/96.jpg" },
-  { id: 97, name: "鈴木悠仁", group: "B&ZAI", rate: 1500, image: "images/97.jpg" },
-  { id: 98, name: "川﨑星輝", group: "B&ZAI", rate: 1500, image: "images/98.jpg" },
-  { id: 99, name: "稲葉通陽", group: "B&ZAI", rate: 1500, image: "images/99.jpg" },
-  { id: 100, name: "永瀬廉", group: "King & Prince", rate: 1500, image: "images/100.jpg" },
-  { id: 101, name: "髙橋海人", group: "King & Prince", rate: 1500, image: "images/101.jpg" }
+  { id: 1, name: "小山慶一郎", group: "NEWS", rate: 1500, image: "1.jpg" },
+  { id: 2, name: "加藤シゲアキ", group: "NEWS", rate: 1500, image: "2.jpg" },
+  { id: 3, name: "増田貴久", group: "NEWS", rate: 1500, image: "3.jpg" },
+  { id: 4, name: "堂本剛", group: "DOMOTO", rate: 1500, image: "4.jpg" },
+  { id: 5, name: "堂本光一", group: "DOMOTO", rate: 1500, image: "5.jpg" },
+  { id: 6, name: "大野智", group: "嵐", rate: 1500, image: "6.jpg" },
+  { id: 7, name: "櫻井翔", group: "嵐", rate: 1500, image: "7.jpeg" }, // ここだけjpeg対応
+  { id: 8, name: "松本潤", group: "嵐", rate: 1500, image: "8.jpg" },
+  { id: 9, name: "相葉雅紀", group: "嵐", rate: 1500, image: "9.jpg" },
+  { id: 10, name: "二宮和也", group: "嵐", rate: 1500, image: "10.jpg" },
+  { id: 11, name: "大倉忠義", group: "SUPER EIGHT", rate: 1500, image: "11.jpg" },
+  { id: 12, name: "安田章大", group: "SUPER EIGHT", rate: 1500, image: "12.jpg" },
+  { id: 13, name: "村上信五", group: "SUPER EIGHT", rate: 1500, image: "13.jpg" },
+  { id: 14, name: "横山裕", group: "SUPER EIGHT", rate: 1500, image: "14.jpg" },
+  { id: 15, name: "丸山隆平", group: "SUPER EIGHT", rate: 1500, image: "15.jpg" },
+  { id: 16, name: "山田涼介", group: "Hey! Say! JUMP", rate: 1500, image: "16.jpg" },
+  { id: 17, name: "有岡大貴", group: "Hey! Say! JUMP", rate: 1500, image: "17.jpg" },
+  { id: 18, name: "知念侑李", group: "Hey! Say! JUMP", rate: 1500, image: "18.jpg" },
+  { id: 19, name: "伊野尾慧", group: "Hey! Say! JUMP", rate: 1500, image: "19.jpg" },
+  { id: 20, name: "髙木雄也", group: "Hey! Say! JUMP", rate: 1500, image: "20.jpg" },
+  { id: 21, name: "八乙女光", group: "Hey! Say! JUMP", rate: 1500, image: "21.jpg" },
+  { id: 22, name: "薮宏太", group: "Hey! Say! JUMP", rate: 1500, image: "22.jpg" },
+  { id: 23, name: "千賀健永", group: "Kis-My-Ft2", rate: 1500, image: "23.jpg" },
+  { id: 24, name: "横尾渉", group: "Kis-My-Ft2", rate: 1500, image: "24.jpg" },
+  { id: 25, name: "宮田俊哉", group: "Kis-My-Ft2", rate: 1500, image: "25.jpg" },
+  { id: 26, name: "玉森裕太", group: "Kis-My-Ft2", rate: 1500, image: "26.jpg" },
+  { id: 27, name: "藤ヶ谷太輔", group: "Kis-My-Ft2", rate: 1500, image: "27.jpg" },
+  { id: 28, name: "二階堂高嗣", group: "Kis-My-Ft2", rate: 1500, image: "28.jpg" },
+  { id: 29, name: "佐藤勝利", group: "timelesz", rate: 1500, image: "29.jpg" },
+  { id: 30, name: "菊池風磨", group: "timelesz", rate: 1500, image: "30.jpg" },
+  { id: 31, name: "松島聡", group: "timelesz", rate: 1500, image: "31.jpg" },
+  { id: 32, name: "寺西拓人", group: "timelesz", rate: 1500, image: "32.jpg" },
+  { id: 33, name: "原嘉孝", group: "timelesz", rate: 1500, image: "33.jpg" },
+  { id: 34, name: "橋本将生", group: "timelesz", rate: 1500, image: "34.jpg" },
+  { id: 35, name: "猪俣周杜", group: "timelesz", rate: 1500, image: "35.jpg" },
+  { id: 36, name: "篠塚大輝", group: "timelesz", rate: 1500, image: "36.jpg" },
+  { id: 37, name: "中島健人", group: "Solo", rate: 1500, image: "37.jpg" },
+  { id: 38, name: "橋本良亮", group: "A.B.C-Z", rate: 1500, image: "38.jpg" },
+  { id: 39, name: "戸塚祥太", group: "A.B.C-Z", rate: 1500, image: "39.jpg" },
+  { id: 40, name: "五関晃一", group: "A.B.C-Z", rate: 1500, image: "40.jpg" },
+  { id: 41, name: "塚田僚一", group: "A.B.C-Z", rate: 1500, image: "41.jpg" },
+  { id: 42, name: "重岡大毅", group: "WEST.", rate: 1500, image: "42.jpg" },
+  { id: 43, name: "桐山照史", group: "WEST.", rate: 1500, image: "43.jpg" },
+  { id: 44, name: "中間淳太", group: "WEST.", rate: 1500, image: "44.jpg" },
+  { id: 45, name: "神山智洋", group: "WEST.", rate: 1500, image: "45.jpg" },
+  { id: 46, name: "藤井流星", group: "WEST.", rate: 1500, image: "46.jpg" },
+  { id: 47, name: "濵田崇裕", group: "WEST.", rate: 1500, image: "47.jpg" },
+  { id: 48, name: "小瀧望", group: "WEST.", rate: 1500, image: "48.jpg" },
+  { id: 49, name: "ジェシー", group: "SixTONES", rate: 1500, image: "49.jpg" },
+  { id: 50, name: "京本大我", group: "SixTONES", rate: 1500, image: "50.jpg" },
+  { id: 51, name: "松村北斗", group: "SixTONES", rate: 1500, image: "51.jpg" },
+  { id: 52, name: "髙地優吾", group: "SixTONES", rate: 1500, image: "52.jpg" },
+  { id: 53, name: "森本慎太郎", group: "SixTONES", rate: 1500, image: "53.jpg" },
+  { id: 54, name: "田中樹", group: "SixTONES", rate: 1500, image: "54.jpg" },
+  { id: 55, name: "岩本照", group: "Snow Man", rate: 1500, image: "55.jpg" },
+  { id: 56, name: "深澤辰哉", group: "Snow Man", rate: 1500, image: "56.jpg" },
+  { id: 57, name: "ラウール", group: "Snow Man", rate: 1500, image: "57.jpg" },
+  { id: 58, name: "渡辺翔太", group: "Snow Man", rate: 1500, image: "58.jpg" },
+  { id: 59, name: "向井康二", group: "Snow Man", rate: 1500, image: "59.jpg" },
+  { id: 60, name: "阿部亮平", group: "Snow Man", rate: 1500, image: "60.jpg" },
+  { id: 61, name: "目黒蓮", group: "Snow Man", rate: 1500, image: "61.jpg" },
+  { id: 62, name: "宮舘涼太", group: "Snow Man", rate: 1500, image: "62.jpg" },
+  { id: 63, name: "佐久間大介", group: "Snow Man", rate: 1500, image: "63.jpg" },
+  { id: 64, name: "西畑大吾", group: "なにわ男子", rate: 1500, image: "64.jpg" },
+  { id: 65, name: "大西流星", group: "なにわ男子", rate: 1500, image: "65.jpg" },
+  { id: 66, name: "道枝駿佑", group: "なにわ男子", rate: 1500, image: "66.jpg" },
+  { id: 67, name: "高橋恭平", group: "なにわ男子", rate: 1500, image: "67.jpg" },
+  { id: 68, name: "長尾謙杜", group: "なにわ男子", rate: 1500, image: "68.jpg" },
+  { id: 69, name: "藤原丈一郎", group: "なにわ男子", rate: 1500, image: "69.jpg" },
+  { id: 70, name: "大橋和也", group: "なにわ男子", rate: 1500, image: "70.jpg" },
+  { id: 71, name: "宮近海斗", group: "Travis Japan", rate: 1500, image: "71.jpg" },
+  { id: 72, name: "中村海人", group: "Travis Japan", rate: 1500, image: "72.jpg" },
+  { id: 73, name: "七五三掛龍也", group: "Travis Japan", rate: 1500, image: "73.jpg" },
+  { id: 74, name: "川島如恵留", group: "Travis Japan", rate: 1500, image: "74.jpg" },
+  { id: 75, name: "吉澤閑也", group: "Travis Japan", rate: 1500, image: "75.jpg" },
+  { id: 76, name: "松田元太", group: "Travis Japan", rate: 1500, image: "76.jpg" },
+  { id: 77, name: "松倉海斗", group: "Travis Japan", rate: 1500, image: "77.jpg" },
+  { id: 78, name: "正門良規", group: "Aぇ! group", rate: 1500, image: "78.jpg" },
+  { id: 79, name: "末澤誠也", group: "Aぇ! group", rate: 1500, image: "79.jpg" },
+  { id: 80, name: "小島健", group: "Aぇ! group", rate: 1500, image: "80.jpg" },
+  { id: 81, name: "佐野晶哉", group: "Aぇ! group", rate: 1500, image: "81.jpg" },
+  { id: 82, name: "浮所飛貴", group: "ACEes", rate: 1500, image: "82.jpg" },
+  { id: 83, name: "那須雄登", group: "ACEes", rate: 1500, image: "83.jpg" },
+  { id: 84, name: "作間龍斗", group: "ACEes", rate: 1500, image: "84.jpg" },
+  { id: 85, name: "深田竜生", group: "ACEes", rate: 1500, image: "85.jpg" },
+  { id: 86, name: "佐藤佐藤龍我", group: "ACEes", rate: 1500, image: "86.jpg" },
+  { id: 87, name: "岩崎大昇", group: "KEY TO LIT", rate: 1500, image: "87.jpg" },
+  { id: 88, name: "井上瑞稀", group: "KEY TO LIT", rate: 1500, image: "88.jpg" },
+  { id: 89, name: "中村嶺亜", group: "KEY TO LIT", rate: 1500, image: "89.jpg" },
+  { id: 90, name: "猪狩蒼弥", group: "KEY TO LITs", rate: 1500, image: "90.jpg" },
+  { id: 91, name: "佐々木大光", group: "KEY TO LIT", rate: 1500, image: "91.jpg" },
+  { id: 92, name: "橋本涼", group: "B&ZAI", rate: 1500, image: "92.jpg" },
+  { id: 93, name: "矢花黎", group: "B&ZAI", rate: 1500, image: "93.jpg" },
+  { id: 94, name: "今野大輝", group: "B&ZAI", rate: 1500, image: "94.jpg" },
+  { id: 95, name: "菅田凛寧", group: "B&ZAI", rate: 1500, image: "95.jpg" },
+  { id: 96, name: "本髙克樹", group: "B&ZAI", rate: 1500, image: "96.jpg" },
+  { id: 97, name: "鈴木悠仁", group: "B&ZAI", rate: 1500, image: "97.jpg" },
+  { id: 98, name: "川﨑星輝", group: "B&ZAI", rate: 1500, image: "98.jpg" },
+  { id: 99, name: "稲葉通陽", group: "B&ZAI", rate: 1500, image: "99.jpg" },
+  { id: 100, name: "永瀬廉", group: "King & Prince", rate: 1500, image: "100.jpg" },
+  { id: 101, name: "髙橋海人", group: "King & Prince", rate: 1500, image: "101.jpg" }
 ];
 
 const K_FACTOR = 32;
@@ -406,13 +394,13 @@ function nextMatch(isUndo = false) {
         rightIndex = pool[Math.floor(Math.random() * pool.length)].index;
     }
 
-    // 左のカードの更新
+    // 更新（左）
     document.getElementById("left-img").src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
     document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
     document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
     
-    // 右のカードの更新
+    // 更新（右）
     document.getElementById("right-img").src = members[rightIndex].image;
     document.getElementById("right-name").textContent = members[rightIndex].name;
     document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
@@ -489,7 +477,7 @@ function showResults() {
             <div class="grid-item">
                 <img src="${ranking[i].image}">
                 <div class="grid-overlay">
-                    <div class="grid-rank">#${i+1}</div>
+                    <div class="grid-rank">#13${i+1}</div>
                     <div class="grid-text-bottom">
                         <div class="grid-group">${groupName}</div>
                         <div class="grid-name">${ranking[i].name}</div>
