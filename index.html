@@ -48,7 +48,7 @@
             border-radius: 16px; 
             overflow: hidden;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             cursor: pointer;
             position: relative;
@@ -112,14 +112,10 @@
             color: white;
             cursor: pointer;
             background: linear-gradient(135deg, #ff6ea7 0%, #b076ff 100%);
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             box-shadow: 0 4px 15px rgba(255, 110, 167, 0.3);
         }
-        .btn-vote:hover { 
-            opacity: 0.95; 
-            transform: scale(1.03);
-            box-shadow: 0 6px 20px rgba(255, 110, 167, 0.4);
-        }
+        .btn-vote:active { transform: scale(0.95); }
 
         .btn-action {
             width: 100%;
@@ -128,9 +124,10 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             box-sizing: border-box;
         }
+        .btn-action:active { transform: scale(0.98); }
         
         .btn-draw { background: #fff0f5; color: #ff527b; border: 2px solid #ffdae5; }
         .btn-draw:hover { background: #ffe3ec; border-color: #ff7699; }
@@ -376,6 +373,24 @@ let currentRound = 0;
 let leftIndex, rightIndex;
 let historyLog = [];
 
+// 【新規追加】次の対戦ペアを裏で予習しておくための部屋
+let nextLeftIndex = null;
+let nextRightIndex = null;
+
+// 次のターンの画像を裏で先読み（プリロード）させる関数
+function preloadNextImages() {
+    nextLeftIndex = Math.floor(Math.random() * members.length);
+    let shuffled = [...members].map((m, i) => ({index: i, diff: Math.abs(m.rate - members[nextLeftIndex].rate)}))
+                               .filter(m => m.index !== nextLeftIndex)
+                               .sort((a, b) => a.diff - b.diff);
+    let pool = shuffled.slice(0, 10);
+    nextRightIndex = pool[Math.floor(Math.random() * pool.length)].index;
+
+    // 目に見えない場所で画像をロードさせてブラウザにキャッシュさせる
+    let imgL = new Image(); imgL.src = members[nextLeftIndex].image;
+    let imgR = new Image(); imgR.src = members[nextRightIndex].image;
+}
+
 function nextMatch(isUndo = false) {
     if (currentRound >= totalRounds) {
         showResults();
@@ -386,12 +401,20 @@ function nextMatch(isUndo = false) {
     document.getElementById("undo-btn").disabled = historyLog.length === 0;
 
     if (!isUndo) {
-        leftIndex = Math.floor(Math.random() * members.length);
-        let shuffled = [...members].map((m, i) => ({index: i, diff: Math.abs(m.rate - members[leftIndex].rate)}))
-                                   .filter(m => m.index !== leftIndex)
-                                   .sort((a, b) => a.diff - b.diff);
-        let pool = shuffled.slice(0, 10);
-        rightIndex = pool[Math.floor(Math.random() * pool.length)].index;
+        // 先読み部屋にメンバーが入っていれば、それを使う
+        if (nextLeftIndex !== null && nextRightIndex !== null) {
+            leftIndex = nextLeftIndex;
+            rightIndex = nextRightIndex;
+        } else {
+            leftIndex = Math.floor(Math.random() * members.length);
+            let shuffled = [...members].map((m, i) => ({index: i, diff: Math.abs(m.rate - members[leftIndex].rate)}))
+                                       .filter(m => m.index !== leftIndex)
+                                       .sort((a, b) => a.diff - b.diff);
+            let pool = shuffled.slice(0, 10);
+            rightIndex = pool[Math.floor(Math.random() * pool.length)].index;
+        }
+        // 次のターンのためにすぐ裏で先読みを開始
+        preloadNextImages();
     }
 
     // 更新（左）
@@ -456,6 +479,10 @@ function undoMatch() {
     members[leftIndex].rate = previousState.leftOldRate;
     members[rightIndex].rate = previousState.rightOldRate;
     
+    // 戻るときは先読み部屋を一度リセット
+    nextLeftIndex = null;
+    nextRightIndex = null;
+
     if (!previousState.wasSkipped) {
         currentRound--;
     }
@@ -473,11 +500,12 @@ function showResults() {
     for (let i = 0; i < Math.min(9, ranking.length); i++) {
         let groupName = ranking[i].group ? ranking[i].group : "STARTO";
         
+        // 順位表示の「#13${i+1}」バグを「#${i+1}」に修正しました！
         gridHtml += `
             <div class="grid-item">
                 <img src="${ranking[i].image}">
                 <div class="grid-overlay">
-                    <div class="grid-rank">#13${i+1}</div>
+                    <div class="grid-rank">#${i+1}</div>
                     <div class="grid-text-bottom">
                         <div class="grid-group">${groupName}</div>
                         <div class="grid-name">${ranking[i].name}</div>
@@ -488,6 +516,8 @@ function showResults() {
     document.getElementById("grid-container").innerHTML = gridHtml;
 }
 
+// 初回起動時の先読み
+preloadNextImages();
 nextMatch();
 </script>
 
