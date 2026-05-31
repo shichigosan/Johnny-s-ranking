@@ -373,20 +373,40 @@ let currentRound = 0;
 let leftIndex, rightIndex;
 let historyLog = [];
 
-// 【新規追加】次の対戦ペアを裏で予習しておくための部屋
+// 先読み用データ
 let nextLeftIndex = null;
 let nextRightIndex = null;
 
-// 次のターンの画像を裏で先読み（プリロード）させる関数
-function preloadNextImages() {
-    nextLeftIndex = Math.floor(Math.random() * members.length);
-    let shuffled = [...members].map((m, i) => ({index: i, diff: Math.abs(m.rate - members[nextLeftIndex].rate)}))
-                               .filter(m => m.index !== nextLeftIndex)
-                               .sort((a, b) => a.diff - b.diff);
-    let pool = shuffled.slice(0, 10);
-    nextRightIndex = pool[Math.floor(Math.random() * pool.length)].index;
+// 次に出す候補となるメンバーのインデックス配列を決める関数（終盤制限を実装）
+function getCandidateIndices() {
+    // 100戦目以降（残り50戦以下）になったら、現在のレート上位30名に絞り込む
+    if (currentRound >= 100) {
+        let indexedMembers = members.map((m, idx) => ({ index: idx, rate: m.rate }));
+        indexedMembers.sort((a, b) => b.rate - a.rate);
+        return indexedMembers.slice(0, 30).map(m => m.index);
+    }
+    // 100戦目までは今まで通り全員から選出
+    return members.map((_, idx) => idx);
+}
 
-    // 目に見えない場所で画像をロードさせてブラウザにキャッシュさせる
+// 次のターンのペアを裏で選定＆画像をプリロード
+function preloadNextImages() {
+    let poolIndices = getCandidateIndices();
+    
+    // 1人目をプールからランダムに決定
+    nextLeftIndex = poolIndices[Math.floor(Math.random() * poolIndices.length)];
+    
+    // 2人目は1人目とレートが近い人をプール内から選出
+    let leftRate = members[nextLeftIndex].rate;
+    let shuffled = poolIndices
+        .filter(idx => idx !== nextLeftIndex)
+        .map(idx => ({ index: idx, diff: Math.abs(members[idx].rate - leftRate) }))
+        .sort((a, b) => a.diff - b.diff);
+        
+    let matchPool = shuffled.slice(0, 10);
+    nextRightIndex = matchPool[Math.floor(Math.random() * matchPool.length)].index;
+
+    // 画像のプリロード
     let imgL = new Image(); imgL.src = members[nextLeftIndex].image;
     let imgR = new Image(); imgR.src = members[nextRightIndex].image;
 }
@@ -401,29 +421,29 @@ function nextMatch(isUndo = false) {
     document.getElementById("undo-btn").disabled = historyLog.length === 0;
 
     if (!isUndo) {
-        // 先読み部屋にメンバーが入っていれば、それを使う
         if (nextLeftIndex !== null && nextRightIndex !== null) {
             leftIndex = nextLeftIndex;
             rightIndex = nextRightIndex;
         } else {
-            leftIndex = Math.floor(Math.random() * members.length);
-            let shuffled = [...members].map((m, i) => ({index: i, diff: Math.abs(m.rate - members[leftIndex].rate)}))
-                                       .filter(m => m.index !== leftIndex)
-                                       .sort((a, b) => a.diff - b.diff);
-            let pool = shuffled.slice(0, 10);
-            rightIndex = pool[Math.floor(Math.random() * pool.length)].index;
+            let poolIndices = getCandidateIndices();
+            leftIndex = poolIndices[Math.floor(Math.random() * poolIndices.length)];
+            let leftRate = members[leftIndex].rate;
+            let shuffled = poolIndices
+                .filter(idx => idx !== leftIndex)
+                .map(idx => ({ index: idx, diff: Math.abs(members[idx].rate - leftRate) }))
+                .sort((a, b) => a.diff - b.diff);
+            let matchPool = shuffled.slice(0, 10);
+            rightIndex = matchPool[Math.floor(Math.random() * matchPool.length)].index;
         }
-        // 次のターンのためにすぐ裏で先読みを開始
         preloadNextImages();
     }
 
-    // 更新（左）
+    // 表示更新
     document.getElementById("left-img").src = members[leftIndex].image;
     document.getElementById("left-name").textContent = members[leftIndex].name;
     document.getElementById("left-group").textContent = members[leftIndex].group ? members[leftIndex].group : "STARTO";
     document.getElementById("left-rate").textContent = "ELO " + members[leftIndex].rate;
     
-    // 更新（右）
     document.getElementById("right-img").src = members[rightIndex].image;
     document.getElementById("right-name").textContent = members[rightIndex].name;
     document.getElementById("right-group").textContent = members[rightIndex].group ? members[rightIndex].group : "STARTO";
@@ -479,7 +499,6 @@ function undoMatch() {
     members[leftIndex].rate = previousState.leftOldRate;
     members[rightIndex].rate = previousState.rightOldRate;
     
-    // 戻るときは先読み部屋を一度リセット
     nextLeftIndex = null;
     nextRightIndex = null;
 
@@ -499,8 +518,6 @@ function showResults() {
     let gridHtml = "";
     for (let i = 0; i < Math.min(9, ranking.length); i++) {
         let groupName = ranking[i].group ? ranking[i].group : "STARTO";
-        
-        // 順位表示の「#13${i+1}」バグを「#${i+1}」に修正しました！
         gridHtml += `
             <div class="grid-item">
                 <img src="${ranking[i].image}">
@@ -516,7 +533,6 @@ function showResults() {
     document.getElementById("grid-container").innerHTML = gridHtml;
 }
 
-// 初回起動時の先読み
 preloadNextImages();
 nextMatch();
 </script>
